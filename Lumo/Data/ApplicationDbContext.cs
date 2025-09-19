@@ -10,15 +10,17 @@ namespace Lumo.Data
             : base(options)
         {
         }
+
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<DiaryEntry> DiaryEntries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Unikalność nazwy w obrębie użytkownika
+            // Unikalność nazwy taga w obrębie użytkownika
             builder.Entity<Tag>()
-                .HasIndex(t => new { t.ResourceKey, t.UserId, t.CustomName})
+                .HasIndex(t => new { t.ResourceKey, t.UserId, t.CustomName })
                 .IsUnique();
 
             // Relacja: User → Tag
@@ -28,6 +30,28 @@ namespace Lumo.Data
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Relacja: User → DiaryEntry
+            builder.Entity<DiaryEntry>()
+                .HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // DiaryEntry ↔ Tag (many-to-many)
+            builder.Entity<DiaryEntry>()
+                .HasMany(d => d.Tags)
+                .WithMany(t => t.Entries)
+                .UsingEntity<Dictionary<string, object>>(
+                    "DiaryEntryTags",
+                    j => j.HasOne<Tag>()
+                          .WithMany()
+                          .HasForeignKey("TagsId")
+                          .OnDelete(DeleteBehavior.Restrict), 
+                    j => j.HasOne<DiaryEntry>()
+                          .WithMany()
+                          .HasForeignKey("EntriesId")
+                          .OnDelete(DeleteBehavior.Cascade) 
+                );
             // Dane początkowe (systemowe tagi)
             builder.Entity<Tag>().HasData(
                 new Tag { Id = 1, ResourceKey = "Tag.Work", IsGlobal = true },
