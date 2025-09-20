@@ -2,7 +2,6 @@
 @inject IOptions<Lumo.Models.ThemeOptions> Theme
 
 @{
-    // Na razie ręcznie, później można przełączać przyciskiem/cookie
     bool darkMode = false;
     var colors = darkMode ? Theme.Value.Dark : Theme.Value.Light;
 }
@@ -28,43 +27,87 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lumo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Logo / Home -->
+                <a class="navbar-brand @(User.Identity.IsAuthenticated ? "" : "text-secondary")"
+                   asp-area="" asp-controller="Home" asp-action="Index">Lumo</a>
+
+                <!-- Hamburger menu -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <!-- Menu -->
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        @* Diary *@
+                        <li class="nav-item">
+                            <a class="nav-link @(User.Identity.IsAuthenticated ? "" : "text-secondary disabled")"
+                               asp-controller="Diary" asp-action="Index">
+                                Diary
+                            </a>
+                        </li>
+
+                        @* Tags *@
+                        <li class="nav-item">
+                            <a class="nav-link @(User.Identity.IsAuthenticated ? "" : "text-secondary disabled")"
+                               asp-controller="Tag" asp-action="Index">
+                                Tags
+                            </a>
+                        </li>
+
+                        @* Favorites *@
+                        <li class="nav-item">
+                            <a class="nav-link @(User.Identity.IsAuthenticated ? "" : "text-secondary disabled")"
+                               asp-controller="Diary" asp-action="Favorites">
+                                Favorites
+                            </a>
+                        </li>
+
+                        @* Statistics *@
+                        <li class="nav-item">
+                            <a class="nav-link @(User.Identity.IsAuthenticated ? "" : "text-secondary disabled")"
+                               asp-controller="Statistics" asp-action="Index">
+                                Statistics
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Prawa część -->
+                    <ul class="navbar-nav ms-auto mb-2 mb-sm-0">
                         @if (User.Identity.IsAuthenticated)
                         {
-                           
-                        
-                        
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Journal</a>
+                                <input type="text" class="form-control form-control-sm" placeholder="Search...">
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Statistics</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Inspiration</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Manage">Profile</a>
+                                    </li>
+                                    <li>
+                                        @* Form z tokenem anty-CSRF tak jak w domyślnym _LoginPartial *@
+                                        <form id="logoutForm" class="dropdown-item m-0 p-0" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-link nav-link m-0 p-0">Logout</button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         else
                         {
-                            <a style="color: var(--main-color);">ZALOGUJ SIĘ FRAJERZE ESESSESES</a>
+                            <partial name="_LoginPartial" />
                         }
                     </ul>
-
-
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -76,6 +119,7 @@
             &copy; 2025 - Lumo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

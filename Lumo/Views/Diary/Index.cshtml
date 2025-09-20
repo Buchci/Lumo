@@ -1,0 +1,97 @@
+﻿@model List<Lumo.Models.DiaryEntry>
+
+@{
+    ViewData["Title"] = "Diary";
+}
+
+<h2>Diary</h2>
+
+<!-- Formularz dodawania nowego wpisu -->
+<form id="createEntryForm">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea class="form-control" id="content" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="entryDate" class="form-label">Date</label>
+        <input type="date" class="form-control" id="entryDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Entry</button>
+</form>
+
+<hr />
+
+<h3>Existing Entries</h3>
+<div id="entriesList">
+    @foreach (var entry in Model)
+    {
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">@entry.Title</h5>
+                <p class="card-text">@entry.Content</p>
+                <small>@entry.EntryDate.ToShortDateString()</small>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            // Obsługa formularza
+            $('#createEntryForm').submit(function(e) {
+                e.preventDefault();
+                var data = {
+                    title: $('#title').val(),
+                    content: $('#content').val(),
+                    entryDate: $('#entryDate').val(),
+                    tagIds: [],       // na razie puste
+                    moodRating: 3,
+                    isFavorite: false
+                };
+
+        $.ajax({
+            url: '/api/diary',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                console.log("SUCCESS", response);
+                loadEntries();
+                $('#createEntryForm')[0].reset();
+            },
+            error: function(err) {
+                console.log("ERROR", err);
+                alert('Check console for error details');
+            }
+        });
+            });
+
+            // Funkcja do pobierania wpisów
+            function loadEntries() {
+                $.get('/api/diary', function(entries) {
+                    var html = '';
+                    entries.forEach(function(e) {
+                        html += `
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <h5 class="card-title">${e.title}</h5>
+                                    <p class="card-text">${e.content}</p>
+                                    <small>${new Date(e.entryDate).toLocaleDateString()}</small>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    $('#entriesList').html(html);
+                });
+            }
+
+            // Wczytanie wpisów przy starcie
+            loadEntries();
+        });
+    </script>
+}
