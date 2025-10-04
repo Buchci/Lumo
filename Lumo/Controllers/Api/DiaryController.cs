@@ -27,6 +27,27 @@ namespace Lumo.Controllers.Api
             var entries = await _service.GetUserEntriesAsync(userId);
             return Ok(entries);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var entry = await _service.GetEntryByIdAsync(userId, id);
+            if (entry == null) return NotFound();
+            return Ok(entry);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateDiaryEntryDto dto)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var updated = await _service.UpdateEntryAsync(id, userId, dto);
+            if (updated == null)
+                return NotFound();
+
+            return Ok(updated);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDiaryEntryDto dto)
@@ -53,5 +74,19 @@ namespace Lumo.Controllers.Api
                 });
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var success = await _service.DeleteEntryAsync(id, userId);
+            if (!success)
+                return NotFound();
+
+            return NoContent();
+        }
+
     }
 }

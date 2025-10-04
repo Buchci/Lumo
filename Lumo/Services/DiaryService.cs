@@ -68,4 +68,10 @@ public class DiaryService
         await _db.SaveChangesAsync();
         return true;
     }
+    public async Task<DiaryEntry?> GetEntryByIdAsync(string userId, int id)
+    {
+        return await _db.DiaryEntries
+            .Include(d => d.Tags)
+            .FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
+    }
 }
