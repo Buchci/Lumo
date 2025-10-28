@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Lumo.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -36,7 +37,9 @@ namespace Lumo.Data
                 .WithMany()
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            builder.Entity<DiaryEntry>()
+                .HasIndex(d => new { d.UserId, d.EntryDate })
+                .IsUnique();
             // DiaryEntry ↔ Tag (many-to-many)
             builder.Entity<DiaryEntry>()
                 .HasMany(d => d.Tags)

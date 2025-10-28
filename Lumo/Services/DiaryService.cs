@@ -58,6 +58,11 @@ public class DiaryService
         await _db.SaveChangesAsync();
         return entry;
     }
+    public async Task<bool> HasEntryForDateAsync(string userId, DateTime date)
+    {
+        return await _db.DiaryEntries
+            .AnyAsync(e => e.UserId == userId && e.EntryDate == date);
+    }
 
     public async Task<bool> DeleteEntryAsync(int id, string userId)
     {

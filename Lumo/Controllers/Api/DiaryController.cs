@@ -25,7 +25,19 @@ namespace Lumo.Controllers.Api
         {
             var userId = _userManager.GetUserId(User);
             var entries = await _service.GetUserEntriesAsync(userId);
-            return Ok(entries);
+
+            var result = entries.Select(e => new DiaryEntryReadDto
+            {
+                Id = e.Id,
+                Title = e.Title,
+                Content = e.Content,
+                EntryDate = e.EntryDate,
+                MoodRating = e.MoodRating,
+                IsFavorite = e.IsFavorite,
+                Tags = e.Tags.Select(t => t.CustomName ?? string.Empty).ToList()
+            }).ToList();
+
+            return Ok(result);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -56,14 +68,32 @@ namespace Lumo.Controllers.Api
             {
                 var userId = _userManager.GetUserId(User);
 
-                // <- TU DODAJ PUNKT 2 i 3
                 if (string.IsNullOrEmpty(userId))
-                {
                     return Unauthorized(new { message = "User not logged in." });
-                }
+
+                var entryDate = dto.EntryDate.Date;
+                if (entryDate == default)
+                    return BadRequest(new { message = "Data wpisu (EntryDate) jest wymagana." });
+
+                bool alreadyExists = await _service.HasEntryForDateAsync(userId, entryDate);
+                if (alreadyExists)
+                    return BadRequest(new { message = "Masz już wpis w pamiętniku dla tej daty." });
 
                 var entry = await _service.CreateEntryAsync(userId, dto);
-                return Ok(entry);
+
+                // Map to DTO before returning
+                var result = new DiaryEntryReadDto
+                {
+                    Id = entry.Id,
+                    Title = entry.Title,
+                    Content = entry.Content,
+                    EntryDate = entry.EntryDate,
+                    MoodRating = entry.MoodRating,
+                    IsFavorite = entry.IsFavorite,
+                    Tags = entry.Tags.Select(t => t.CustomName ?? string.Empty).ToList()
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -74,6 +104,7 @@ namespace Lumo.Controllers.Api
                 });
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
