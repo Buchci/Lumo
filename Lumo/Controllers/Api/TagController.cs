@@ -1,8 +1,9 @@
-﻿using Lumo.Models;
+﻿using Lumo.DTOs.Tag;
+using Lumo.Models;
 using Lumo.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Lumo.DTOs.Tag;
+using Microsoft.Extensions.Localization;
 
 namespace Lumo.Controllers.Api
 {
@@ -12,32 +13,39 @@ namespace Lumo.Controllers.Api
     {
         private readonly TagService _service;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IStringLocalizer _localizer;
 
-        public TagController(TagService service, UserManager<ApplicationUser> userManager)
+        public TagController(
+            TagService service,
+            UserManager<ApplicationUser> userManager,
+            IStringLocalizerFactory localizerFactory)
         {
             _service = service;
             _userManager = userManager;
+
+            // Tworzymy lokalizator wskazując nazwę pliku zasobów bez pustych klas
+            // "Tags" to nazwa Twoich plików: Tags_EN.resx i Tags_PL.resx
+            var assemblyName = typeof(Program).Assembly.GetName().Name!;
+            _localizer = localizerFactory.Create("Tags", assemblyName);
         }
 
-        // GET: pobranie wszystkich tagów dla użytkownika + globalne
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var userId = _userManager.GetUserId(User);
             var tags = await _service.GetUserTagsAsync(userId);
 
-            // mapowanie do DTO
             var result = tags.Select(t => new TagReadDto
             {
                 Id = t.Id,
-                CustomName = t.CustomName,
+                CustomName = t.CustomName
+                             ?? (t.IsGlobal ? _localizer[t.ResourceKey!].Value : t.ResourceKey),
                 IsGlobal = t.IsGlobal
             }).ToList();
 
             return Ok(result);
         }
 
-        // POST: dodanie nowego tagu
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTagDto dto)
         {
@@ -46,7 +54,6 @@ namespace Lumo.Controllers.Api
             return Ok(tag);
         }
 
-        // PUT: edycja istniejącego tagu
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTagDto dto)
         {
@@ -56,7 +63,6 @@ namespace Lumo.Controllers.Api
             return Ok(updatedTag);
         }
 
-        // DELETE: usunięcie tagu
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -66,5 +72,4 @@ namespace Lumo.Controllers.Api
             return NoContent();
         }
     }
-
 }

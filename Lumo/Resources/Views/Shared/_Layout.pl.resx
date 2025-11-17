@@ -117,13 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Tag.Family" xml:space="preserve">
-    <value>Rodzina</value>
+  <data name="Diary" xml:space="preserve">
+    <value>Pamiętnik</value>
   </data>
-  <data name="Tag.Health" xml:space="preserve">
-    <value>Health</value>
+  <data name="Favorites" xml:space="preserve">
+    <value>Ulubione</value>
   </data>
-  <data name="Tag.Work" xml:space="preserve">
-    <value>Praca</value>
+  <data name="Home" xml:space="preserve">
+    <value>Strona główna</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Wyloguj</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Prywatność</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statystyki</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tagi</value>
   </data>
 </root>
