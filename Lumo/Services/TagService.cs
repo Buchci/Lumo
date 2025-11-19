@@ -26,9 +26,12 @@ namespace Lumo.Services
             {
                 ResourceKey = resourceKey,
                 CustomName = customName,
-                IsGlobal = isGlobal,
+                IsGlobal = false,
                 UserId = isGlobal ? null : userId
             };
+            if (isGlobal)
+                throw new InvalidOperationException("Users cannot create global tags.");
+
 
             _db.Tags.Add(tag);
             await _db.SaveChangesAsync();

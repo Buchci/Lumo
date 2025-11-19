@@ -3,6 +3,7 @@ using Lumo.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Lumo.Controllers.Api
 {
@@ -26,6 +27,11 @@ namespace Lumo.Controllers.Api
             var userId = _userManager.GetUserId(User);
             var entries = await _service.GetUserEntriesAsync(userId);
 
+            // Get the localizer for global tags
+            var localizerFactory = HttpContext.RequestServices.GetService(typeof(IStringLocalizerFactory)) as IStringLocalizerFactory;
+            var assemblyName = typeof(Program).Assembly.GetName().Name!;
+            var _localizer = localizerFactory!.Create("Tags", assemblyName);
+
             var result = entries.Select(e => new DiaryEntryReadDto
             {
                 Id = e.Id,
@@ -34,11 +40,15 @@ namespace Lumo.Controllers.Api
                 EntryDate = e.EntryDate,
                 MoodRating = e.MoodRating,
                 IsFavorite = e.IsFavorite,
-                Tags = e.Tags.Select(t => t.CustomName ?? string.Empty).ToList()
+                Tags = e.Tags
+                    .Select(t => t.CustomName
+                                 ?? (t.IsGlobal ? _localizer![t.ResourceKey!].Value : t.ResourceKey))
+                    .ToList()
             }).ToList();
 
             return Ok(result);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

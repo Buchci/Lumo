@@ -4,7 +4,8 @@
     ViewData["Title"] = "Diary";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">My Diary 📖</h2>
@@ -24,12 +25,12 @@
                     <label for="content" class="form-label">Content</label>
                     <textarea class="form-control" id="content" rows="4" placeholder="Write your thoughts..." required></textarea>
                 </div>
+
                 <div class="mb-3">
-                    <label for="tags" class="form-label">Tags</label>
-                    <select id="tags" class="form-select" multiple>
-                        <!-- Loaded dynamically -->
-                    </select>
+                    <label class="form-label">Tags</label>
+                    <div id="tags" class="d-flex flex-wrap gap-2"></div>
                 </div>
+
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="entryDate" class="form-label">Date</label>
@@ -52,182 +53,228 @@
     </div>
 
     <h3 class="mb-3">Diary Calendar</h3>
-    <div id="calendar"></div>
+
+    <!-- Month Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <button id="prevMonth" class="btn btn-outline-primary">&lt; Prev</button>
+            <button id="nextMonth" class="btn btn-outline-primary ms-2">Next &gt;</button>
+            <button id="today" class="btn btn-outline-secondary ms-2">Today</button>
+        </div>
+        <h4 id="currentMonth" class="mb-0"></h4>
+    </div>
+
+    <div id="tui-calendar" style="height: 700px; border: 1px solid #ccc; border-radius: 8px;"></div>
+</div>
+
+<!-- Custom Modal for Entry Details -->
+<div class="modal fade" id="entryModal" tabindex="-1" aria-labelledby="entryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="entryModalTitle"></h5>
+        <button type="button" class="btn-close" id="entryModalBtnClose" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="entryModalContent"></p>
+        <div id="entryModalTags" class="mb-2"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="editEntryBtn" class="btn btn-primary">Edit</button>
+        <button type="button" id="deleteEntryBtn" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="https://unpkg.com/@@popperjs/core@2/dist/umd/popper.min.js"></script>
-    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // Load tags for the multi-select
-        function loadTags() {
-            $.get('/api/tag', function(tags) {
-                var $select = $('#tags');
-                $select.empty();
-                tags.forEach(t => {
-                    $select.append(`<option value="${t.id}">${t.customName}</option>`);
-                });
-            });
-        }
-
-        $(document).ready(function() {
-            loadTags();
-
-            // Handle diary entry creation
-            $('#createEntryForm').on('submit', function(e) {
-                e.preventDefault();
-
-                var data = {
-                    title: $('#title').val(),
-                    content: $('#content').val(),
-                    entryDate: $('#entryDate').val(),
-                    moodRating: parseInt($('#moodRating').val()),
-                    tagIds: $('#tags').val() || []
-                };
-
-                $.ajax({
-                    url: '/api/diary',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-        success: function(entry) {
-            // Use the returned DTO
-            var moodEmoji = '';
-            var bgColor = '';
-            switch(entry.moodRating) {
-                case 1: moodEmoji = '😢'; bgColor = '#fee2e2'; break;
-                case 2: moodEmoji = '☹️'; bgColor = '#fecaca'; break;
-                case 3: moodEmoji = '😐'; bgColor = '#fef3c7'; break;
-                case 4: moodEmoji = '🙂'; bgColor = '#d1fae5'; break;
-                case 5: moodEmoji = '😄'; bgColor = '#bfdbfe'; break;
-            }
-
-            calendar.addEvent({
-                id: entry.id,
-                title: moodEmoji,
-                start: entry.entryDate,
-                allDay: true,
-                backgroundColor: bgColor,
-                borderColor: bgColor,
-                textColor: '#111827',
-                extendedProps: {
-                    title: entry.title,
-                    content: entry.content,
-                    tags: entry.tags
-                }
-            });
-
-            $('#createEntryForm')[0].reset();
-            loadTags();
-        }
-
-                });
-            });
-
-            // Initialize FullCalendar
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
-                events: function(fetchInfo, successCallback) {
-                    $.get('/api/diary', function(entries) {
-                        var events = entries.map(function(e) {
-                            var moodEmoji = '';
-                            var bgColor = '';
-                            switch(e.moodRating) {
-                                case 1: moodEmoji = '😢'; bgColor = '#fee2e2'; break;
-                                case 2: moodEmoji = '☹️'; bgColor = '#fecaca'; break;
-                                case 3: moodEmoji = '😐'; bgColor = '#fef3c7'; break;
-                                case 4: moodEmoji = '🙂'; bgColor = '#d1fae5'; break;
-                                case 5: moodEmoji = '😄'; bgColor = '#bfdbfe'; break;
-                            }
-                            return {
-                                id: e.id,
-                                title: moodEmoji,
-                                start: e.entryDate,
-                                allDay: true,
-                                backgroundColor: bgColor,
-                                borderColor: bgColor,
-                                textColor: '#111827',
-                                extendedProps: {
-                                    title: e.title,
-                                    content: e.content,
-                                    tags: e.tags // ✅ include tags
-                                }
-                            };
-                        });
-                        successCallback(events);
-                    });
-                },
-                eventContent: function(arg) {
-                    return {
-                        html: `<div class="fc-event-custom">${arg.event.title}</div>`
-                    };
-                },
-                eventDidMount: function(info) {
-                    var tagsHtml = '';
-                    if(info.event.extendedProps.tags) {
-                        tagsHtml = info.event.extendedProps.tags
-                            .map(t => `<span class="badge bg-secondary me-1">${t}</span>`)
-                            .join('');
-                    }
-
-                    tippy(info.el, {
-                        content: `<strong>${info.event.extendedProps.title}</strong><br>${info.event.extendedProps.content}<br>${tagsHtml}`,
-                        allowHTML: true,
-                        theme: 'light',
-                        placement: 'top',
-                    });
-                }
-            });
-
-            calendar.render();
+<script>
+function loadTags() {
+    $.get('/api/tag', function(tags) {
+        var $container = $('#tags');
+        $container.empty();
+        tags.forEach(tag => {
+            const checkboxHtml = `
+                <div class="form-check me-3">
+                    <input class="form-check-input tag-checkbox" type="checkbox" value="${tag.id}" id="tag_${tag.id}">
+                    <label class="form-check-label" for="tag_${tag.id}">${tag.customName}</label>
+                </div>
+            `;
+            $container.append(checkboxHtml);
         });
-    </script>
+    });
+}
 
-    <style>
-        #calendar {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            padding: 1rem;
-        }
+$(document).ready(function() {
+    loadTags();
 
-        .fc-daygrid-day:hover {
-            background: #f3f4f6;
-        }
+    var calendar = new tui.Calendar('#tui-calendar', {
+        defaultView: 'month',
+        taskView: false,
+        scheduleView: ['time', 'allday', 'milestone'],
+        useCreationPopup: true,
+        useDetailPopup: false,
+        month: { startDayOfWeek: 1 }
+    });
 
-        /* Remove FullCalendar padding */
-        .fc-event .fc-event-main-frame {
-            padding: 0;
+    function mapMoodToColor(mood) {
+        switch(mood) {
+            case 1: return '#fc6969';
+            case 2: return '#ff8533';
+            case 3: return '#fcdf69';
+            case 4: return '#30e889';
+            case 5: return '#33ffd6';
+            default: return '#fef3c7';
         }
+    }
 
-        /* Fixed day height */
-        .fc .fc-daygrid-day-frame {
-            min-height: 100px;
-            position: relative;
-        }
+    function loadEntries() {
+        $.get('/api/diary', function(entries) {
+            calendar.clear();
+            const schedules = entries.map(e => {
+                return {
+                    id: String(e.id),
+                    calendarId: '1',
+                    title: e.title,
+                    category: 'allday',
+                    start: e.entryDate,
+                    end: e.entryDate,
+                    isAllDay: true,
+                    bgColor: mapMoodToColor(e.moodRating),
+                    color: '#111827',
+                    raw: { content: e.content, tags: e.tags, moodRating: e.moodRating }
+                };
+            });
+            calendar.createSchedules(schedules);
+        });
+    }
 
-        /* Mood emoji tile */
-        .fc-event {
-            padding: 5px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            color: #111827;
-            font-size: 5rem;
-            margin: 2px;
-            pointer-events: auto;
-            text-align: center;
-            height: 100px;
-        }
-    </style>
+    loadEntries();
+
+    $('#createEntryForm').on('submit', function(e) {
+        e.preventDefault();
+        const data = {
+            title: $('#title').val(),
+            content: $('#content').val(),
+            entryDate: $('#entryDate').val(),
+            moodRating: parseInt($('#moodRating').val()),
+            tagIds: $('.tag-checkbox:checked').map(function() { return $(this).val(); }).get()
+        };
+
+        $.ajax({
+            url: '/api/diary',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(entry) {
+                calendar.createSchedules([{
+                    id: String(entry.id),
+                    calendarId: '1',
+                    title: entry.title,
+                    category: 'allday',
+                    start: entry.entryDate,
+                    end: entry.entryDate,
+                    isAllDay: true,
+                    bgColor: mapMoodToColor(entry.moodRating),
+                    color: '#111827',
+                    raw: { content: entry.content, tags: entry.tags }
+                }]);
+                $('#createEntryForm')[0].reset();
+                loadTags();
+            }
+        });
+    });
+
+    function updateMonthLabel() {
+        const current = calendar.getDate();
+        const month = current.getMonth() + 1;
+        const year = current.getFullYear();
+        document.getElementById('currentMonth').innerText = `${year} / ${month}`;
+    }
+
+    updateMonthLabel();
+    document.getElementById('prevMonth').addEventListener('click', function() { calendar.prev(); updateMonthLabel(); });
+    document.getElementById('nextMonth').addEventListener('click', function() { calendar.next(); updateMonthLabel(); });
+    document.getElementById('today').addEventListener('click', function() { calendar.today(); updateMonthLabel(); });
+
+    calendar.on('clickSchedule', function(event) {
+        const sch = event.schedule;
+        $('#entryModalTitle').text(sch.title);
+        $('#entryModalContent').text(sch.raw.content);
+        $('#entryModalTags').html(
+            sch.raw.tags?.map(t => `<span class="badge bg-secondary me-1">${t}</span>`).join('') || ''
+        );
+
+        var myModal = new bootstrap.Modal(document.getElementById('entryModal'));
+        myModal.show();
+
+        $('#editEntryBtn').off('click').on('click', function() {
+            alert('Edit entry ' + sch.id);
+        });
+
+        $('#deleteEntryBtn').off('click').on('click', function() {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                $.ajax({
+                    url: '/api/diary/' + sch.id,
+                    type: 'DELETE',
+                    success: function() {
+                        calendar.deleteSchedule(sch.id, sch.calendarId);
+                        myModal.hide();
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+
+<style>
+.tui-full-calendar-container {
+    background: white;
+    border-radius: 8px;
+}
+.tui-full-calendar-schedule {
+    border-radius: 6px;
+    padding: 3px 5px;
+    font-size: 0.9rem;
+}
+
+/* Responsive modal for long content and tags */
+#entryModal .modal-dialog {
+    max-width: 500px;
+}
+#entryModalTitle {
+    padding-left:15px;
+    padding-right:15px;
+}
+#entryModalBtnClose {
+    margin:10px;
+}
+
+#entryModal .modal-content {
+    display: flex;
+    flex-direction: column;
+            padding-left: 15px;
+            padding-right: 15px;
+}
+
+#entryModal .modal-body {
+    overflow: visible;
+    word-break: break-word;
+    max-height: 50vh; /* optional: scroll if extremely long */
+    overflow-y: auto;
+}
+
+#entryModalTitle {
+    word-break: break-word;
+}
+</style>
 }

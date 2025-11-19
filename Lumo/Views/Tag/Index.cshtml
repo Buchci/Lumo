@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Manage Tags";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Manage Tags 🏷️</h2>
+
+    <!-- Form to add a new tag -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">Add New Tag</div>
+        <div class="card-body">
+            <form id="createTagForm">
+                <div class="mb-3">
+                    <label for="customName" class="form-label">Tag Name</label>
+                    <input type="text" class="form-control" id="customName" placeholder="Enter tag name..." required>
+                </div>
+                <button type="submit" class="btn btn-success">Add Tag</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Existing tags list -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">Existing Tags</div>
+        <div class="card-body">
+            <ul id="tagsList" class="list-group"></ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Load tags from API
+                function loadTags() {
+            $.get('/api/tag', function(tags) {
+                var $list = $('#tagsList');
+                $list.empty();
+
+                tags.forEach(t => {
+                    var listItem = `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${t.customName} ${t.isGlobal ? '<span class="badge bg-info text-dark">Global</span>' : ''}
+                            ${t.isGlobal ? '' : `<button class="btn btn-sm btn-danger delete-btn" data-id="${t.id}">Delete</button>`}
+                        </li>`;
+                    $list.append(listItem);
+                });
+            });
+        }
+
+        $(document).ready(function() {
+            loadTags();
+
+            // Handle tag creation
+            $('#createTagForm').on('submit', function(e) {
+                e.preventDefault();
+                var data = {
+                    customName: $('#customName').val(),
+                    isGlobal: $('#isGlobal').is(':checked')
+                };
+
+                $.ajax({
+                    url: '/api/tag',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function() {
+                        $('#createTagForm')[0].reset();
+                        loadTags();
+                    },
+                    error: function(err) {
+                        alert('Error creating tag: ' + err.responseJSON?.message);
+                    }
+                });
+            });
+
+            // Handle tag deletion
+            $('#tagsList').on('click', '.delete-btn', function() {
+                var id = $(this).data('id');
+                if (!confirm('Are you sure you want to delete this tag?')) return;
+
+                $.ajax({
+                    url: '/api/tag/' + id,
+                    type: 'DELETE',
+                    success: function() {
+                        loadTags();
+                    },
+                    error: function() {
+                        alert('Failed to delete tag.');
+                    }
+                });
+            });
+        });
+    </script>
+}

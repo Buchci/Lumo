@@ -23,8 +23,7 @@ namespace Lumo.Controllers.Api
             _service = service;
             _userManager = userManager;
 
-            // Tworzymy lokalizator wskazując nazwę pliku zasobów bez pustych klas
-            // "Tags" to nazwa Twoich plików: Tags_EN.resx i Tags_PL.resx
+            // "Tags" to nazwa  plików: Tags_EN.resx i Tags_PL.resx
             var assemblyName = typeof(Program).Assembly.GetName().Name!;
             _localizer = localizerFactory.Create("Tags", assemblyName);
         }
