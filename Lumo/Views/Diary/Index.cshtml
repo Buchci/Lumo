@@ -5,16 +5,15 @@
 }
 
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">My Diary 📖</h2>
-
     <!-- Add New Entry Form -->
-    <div class="card shadow-sm mb-5">
-        <div class="card-header bg-primary text-white">
-            Add New Entry
-        </div>
+    <div class="text-left mb-4">
+        <button id="toggleEntryForm" class="btn btn-primary">Add New Entry</button>
+    </div>
+    <div class="card shadow-sm mb-5" id="createEntryCard" style="display: none;">
+
+        <div class="card shadow-sm mb-5">
         <div class="card-body">
             <form id="createEntryForm">
                 <div class="mb-3">
@@ -47,9 +46,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="isFavorite">
+                    <label class="form-check-label" for="isFavorite">Favorite ⭐</label>
+                </div>
                 <button type="submit" class="btn btn-success w-100">Add Entry</button>
             </form>
         </div>
+    </div>
     </div>
 
     <h3 class="mb-3">Diary Calendar</h3>
@@ -78,6 +82,7 @@
       <div class="modal-body">
         <p id="entryModalContent"></p>
         <div id="entryModalTags" class="mb-2"></div>
+        <div id="entryModalFavorite" class="mt-2 fw-bold"></div>
       </div>
       <div class="modal-footer">
         <button type="button" id="editEntryBtn" class="btn btn-primary">Edit</button>
@@ -88,15 +93,20 @@
   </div>
 </div>
 
-@section Scripts {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
 <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+        // Toggle form visibility
+    $('#toggleEntryForm').click(function() {
+        $('#createEntryCard').slideToggle(); // slide animation for showing/hiding
+        $(this).text(function(i, text){
+            return text === "Add New Entry" ? "Hide Form" : "Add New Entry";
+        });
+    });
 function loadTags() {
     $.get('/api/tag', function(tags) {
         var $container = $('#tags');
@@ -150,7 +160,7 @@ $(document).ready(function() {
                     isAllDay: true,
                     bgColor: mapMoodToColor(e.moodRating),
                     color: '#111827',
-                    raw: { content: e.content, tags: e.tags, moodRating: e.moodRating }
+                        raw: { content: e.content, tags: e.tags, moodRating: e.moodRating, isFavorite: e.isFavorite    }
                 };
             });
             calendar.createSchedules(schedules);
@@ -166,6 +176,7 @@ $(document).ready(function() {
             content: $('#content').val(),
             entryDate: $('#entryDate').val(),
             moodRating: parseInt($('#moodRating').val()),
+            isFavorite: $('#isFavorite').is(':checked'),
             tagIds: $('.tag-checkbox:checked').map(function() { return $(this).val(); }).get()
         };
 
@@ -212,7 +223,11 @@ $(document).ready(function() {
         $('#entryModalTags').html(
             sch.raw.tags?.map(t => `<span class="badge bg-secondary me-1">${t}</span>`).join('') || ''
         );
-
+            $('#entryModalFavorite').html(
+            sch.raw.isFavorite
+                ? '<span class="text-warning">⭐ Favorite</span>'
+                : '<span class="text-muted">Not Favorite</span>'
+        );
         var myModal = new bootstrap.Modal(document.getElementById('entryModal'));
         myModal.show();
 
@@ -249,11 +264,12 @@ $(document).ready(function() {
 
 /* Responsive modal for long content and tags */
 #entryModal .modal-dialog {
-    max-width: 500px;
+    max-width: 700px;
 }
 #entryModalTitle {
     padding-left:15px;
     padding-right:15px;
+    padding-top:5px;
 }
 #entryModalBtnClose {
     margin:10px;
@@ -277,4 +293,3 @@ $(document).ready(function() {
     word-break: break-word;
 }
 </style>
-}

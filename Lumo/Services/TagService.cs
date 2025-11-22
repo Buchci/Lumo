@@ -51,11 +51,19 @@ namespace Lumo.Services
 
         public async Task<bool> DeleteTagAsync(int id, string userId)
         {
-            var tag = await _db.Tags.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
-            if (tag == null) return false;
+            var tag = await _db.Tags
+                .Include(t => t.Entries)
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
+            if (tag == null)
+                return false;
+
+            tag.Entries.Clear();
+            await _db.SaveChangesAsync();
 
             _db.Tags.Remove(tag);
             await _db.SaveChangesAsync();
+
             return true;
         }
     }

@@ -21,7 +21,7 @@ namespace Lumo.Data
 
             // Unikalność nazwy taga w obrębie użytkownika
             builder.Entity<Tag>()
-                .HasIndex(t => new { t.ResourceKey, t.UserId, t.CustomName })
+                .HasIndex(t => new {t.UserId, t.CustomName })
                 .IsUnique();
 
             // Relacja: User → Tag
