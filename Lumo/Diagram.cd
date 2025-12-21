@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lumo.Controllers.CultureController">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CultureController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Controllers.DiaryController">
+    <Position X="19" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\DiaryController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Controllers.HomeController">
+    <Position X="13" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAIAAAAQAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Controllers.TagController">
+    <Position X="19" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\TagController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.DiaryEntry.CreateDiaryEntryDto">
+    <Position X="8.75" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAgAAAEAAAAAQAACAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>DTOs\DiaryEntry\CreateDiaryEntryDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.DiaryEntry.DiaryEntryReadDto">
+    <Position X="8.75" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAAgAAAEAAAAAQAACAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOs\DiaryEntry\DiaryEntryReadDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.DiaryEntry.UpdateDiaryEntryDto">
+    <Position X="7" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAgAAAEAAAAAQAACAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>DTOs\DiaryEntry\UpdateDiaryEntryDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.Tag.CreateTagDto">
+    <Position X="4" Y="10" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOs\Tag\CreateTagDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.Tag.TagReadDto">
+    <Position X="2" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOs\Tag\TagReadDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.DTOs.Tag.UpdateTagDto">
+    <Position X="2" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOs\Tag\UpdateTagDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.ApplicationUser">
+    <Position X="5.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.DiaryEntry">
+    <Position X="6.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAgAAAgAAAEAAACAQBAiAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DiaryEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.ErrorViewModel">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.Tag">
+    <Position X="4.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAIAAAAACAAAAAAAAgEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Tag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.ThemeOptions">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ThemeOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Models.ThemeColors">
+    <Position X="15" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAKAAAAAAAACAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Models\ThemeOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Controllers.Api.TagController">
+    <Position X="7.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAAAABQAAAAAAAAAAEAAEAAAAAAEAAAAAA=</HashCode>
+      <FileName>Controllers\Api\TagController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Controllers.Api.DiaryController">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAAAABQAAAAAAAAAAEAAEAAAAAAAAAAAIA=</HashCode>
+      <FileName>Controllers\Api\DiaryController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DiaryService">
+    <Position X="5.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAgAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAACIAEAA=</HashCode>
+      <FileName>Services\DiaryService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lumo.Services.TagService">
+    <Position X="9.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAAhAAA=</HashCode>
+      <FileName>Services\TagService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

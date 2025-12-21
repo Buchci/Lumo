@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Statistics";
+}
+<div class="container mt-5" id="statisticsContainer">
+
+    <!-- OVERALL -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body text-center">
+            <h5 class="text-muted">Overall Average Mood</h5>
+            <h1 id="overallAverageMood" class="display-4 fw-bold">–</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- MONTHLY -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3">Monthly Averages</h5>
+                    <ul class="list-group" id="monthlyAveragesList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAG USAGE -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3">Tag Usage</h5>
+                    <ul class="list-group" id="tagUsageList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            loadStatistics();
+        });
+
+        function loadStatistics() {
+            $.get('/api/statistics', function (data) {
+
+                // OVERALL
+                $('#overallAverageMood').text(data.overallAverageMood.toFixed(2));
+
+                // MONTHLY
+                const $monthly = $('#monthlyAveragesList');
+                $monthly.empty();
+
+                data.monthlyAverages.forEach(m => {
+                    const monthName = new Date(m.year, m.month - 1)
+                        .toLocaleString('en-US', { month: 'long' });
+
+                    $monthly.append(`
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>${monthName} ${m.year}</span>
+                            <span class="fw-bold">${m.averageMood.toFixed(2)}</span>
+                        </li>
+                    `);
+                });
+
+                // TAG USAGE
+                const $tags = $('#tagUsageList');
+                $tags.empty();
+
+                data.tagUsage.forEach(t => {
+                    $tags.append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${t.name}</span>
+                            <span class="badge bg-primary rounded-pill">${t.count}</span>
+                        </li>
+                    `);
+                });
+            });
+        }
+    </script>
+}
