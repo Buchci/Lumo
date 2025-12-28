@@ -191,7 +191,7 @@ namespace Lumo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceKey = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ResourceKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CustomName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsGlobal = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -281,9 +281,10 @@ namespace Lumo.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiaryEntries_UserId",
+                name: "IX_DiaryEntries_UserId_EntryDate",
                 table: "DiaryEntries",
-                column: "UserId");
+                columns: new[] { "UserId", "EntryDate" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiaryEntryTags_TagsId",
@@ -291,16 +292,11 @@ namespace Lumo.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tags_ResourceKey_UserId_CustomName",
+                name: "IX_Tags_UserId_CustomName",
                 table: "Tags",
-                columns: new[] { "ResourceKey", "UserId", "CustomName" },
+                columns: new[] { "UserId", "CustomName" },
                 unique: true,
-                filter: "[ResourceKey] IS NOT NULL AND [UserId] IS NOT NULL AND [CustomName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tags_UserId",
-                table: "Tags",
-                column: "UserId");
+                filter: "[UserId] IS NOT NULL AND [CustomName] IS NOT NULL");
         }
 
         /// <inheritdoc />

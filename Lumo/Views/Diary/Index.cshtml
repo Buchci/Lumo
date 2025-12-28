@@ -196,7 +196,13 @@ $(document).ready(function() {
                     isAllDay: true,
                     bgColor: mapMoodToColor(entry.moodRating),
                     color: '#111827',
-                    raw: { content: entry.content, tags: entry.tags }
+                    raw:
+                    {
+                        content: entry.content,
+                        tags: entry.tags,
+                        moodRantig: entry.moodRating,
+                        isFavorite: entry.isFavorite
+                    }
                 }]);
                 $('#createEntryForm')[0].reset();
                 loadTags();

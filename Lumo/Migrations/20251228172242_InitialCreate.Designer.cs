@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lumo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251122150608_UniqueTags")]
-    partial class UniqueTags
+    [Migration("20251228172242_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
