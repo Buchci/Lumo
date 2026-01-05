@@ -132,6 +132,7 @@ $(document).ready(function() {
         scheduleView: ['time', 'allday', 'milestone'],
         useCreationPopup: true,
         useDetailPopup: false,
+            isReadOnly: true,
         month: { startDayOfWeek: 1 }
     });
 
@@ -145,6 +146,13 @@ $(document).ready(function() {
             default: return '#fef3c7';
         }
     }
+            function isFavoriteBorder(isFavorite) {
+                switch(isFavorite) {
+                    case true: return '#ffbb00';
+                    case false: return '#000000';
+                    default: return '#000000';
+            }
+        }
 
     function loadEntries() {
         $.get('/api/diary', function(entries) {
@@ -159,7 +167,10 @@ $(document).ready(function() {
                     end: e.entryDate,
                     isAllDay: true,
                     bgColor: mapMoodToColor(e.moodRating),
-                    color: '#111827',
+
+                            borderColor: isFavoriteBorder(e.isFavorite),
+                    
+                        color: '#111827',
                         raw: { content: e.content, tags: e.tags, moodRating: e.moodRating, isFavorite: e.isFavorite    }
                 };
             });
@@ -195,6 +206,9 @@ $(document).ready(function() {
                     end: entry.entryDate,
                     isAllDay: true,
                     bgColor: mapMoodToColor(entry.moodRating),
+
+                            borderColor: isFavoriteBorder(entry.isFavorite),
+
                     color: '#111827',
                     raw:
                     {
@@ -291,11 +305,27 @@ $(document).ready(function() {
 #entryModal .modal-body {
     overflow: visible;
     word-break: break-word;
-    max-height: 50vh; /* optional: scroll if extremely long */
+    max-height: 50vh;
     overflow-y: auto;
 }
 
 #entryModalTitle {
     word-break: break-word;
 }
+    .tui-full-calendar-weekday-schedule {
+        min-height: 48px !important;
+        padding: 6px !important;
+        display:flex;
+        align-items: flex-start !important;
+        line-height:35px !important;
+        border-left: 5px solid;
+    }
+
+    .tui-full-calendar-weekday-schedule-title {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
 </style>
