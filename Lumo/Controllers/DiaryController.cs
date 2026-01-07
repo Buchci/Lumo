@@ -11,5 +11,9 @@ namespace Lumo.Controllers
             var model = new List<Lumo.Models.DiaryEntry>();
             return View(model);
         }
+        public IActionResult Favorites()
+        {
+            return View();
+        }
     }
 }

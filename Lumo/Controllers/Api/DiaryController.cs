@@ -128,6 +128,31 @@ namespace Lumo.Controllers.Api
 
             return NoContent();
         }
+        [HttpGet("favorites")]
+        public async Task<IActionResult> GetFavorites()
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null) return Unauthorized();
+
+            var entries = await _service.GetUserEntriesAsync(userId);
+
+            var favorites = entries
+                .Where(e => e.IsFavorite)
+                .Select(e => new DiaryEntryReadDto
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Content = e.Content,
+                    EntryDate = e.EntryDate,
+                    MoodRating = e.MoodRating,
+                    IsFavorite = e.IsFavorite,
+                    Tags = e.Tags.Select(t => t.CustomName ?? t.ResourceKey!).ToList()
+                })
+                .OrderByDescending(e => e.EntryDate)
+                .ToList();
+
+            return Ok(favorites);
+        }
 
     }
 }
