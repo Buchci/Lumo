@@ -20,7 +20,7 @@ builder.Services.AddScoped<StatisticsService>();
 
 builder.Services.AddScoped<DiaryService>();
 builder.Services.AddScoped<TagService>();
-
+builder.Services.AddScoped<Lumo.Helpers.DiaryMapper>();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
