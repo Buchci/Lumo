@@ -79,5 +79,11 @@ public class DiaryService
             .Include(d => d.Tags)
             .FirstOrDefaultAsync(d => d.Id == id && d.UserId == userId);
     }
-
+    public async Task<List<Tag>> GetAllTagsAsync(string userId)
+    {
+        return await _db.Tags
+            .Where(t => t.UserId == userId || t.IsGlobal)
+            .OrderBy(t => t.CustomName)
+            .ToListAsync();
+    }
 }

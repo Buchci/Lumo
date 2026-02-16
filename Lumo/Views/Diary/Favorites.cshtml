@@ -20,7 +20,7 @@
     <div class="row" id="favoritesContainer"></div>
 
 </div>
-
+@await Html.PartialAsync("_EntryModal")
 @section Scripts {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -98,10 +98,10 @@ function loadFavorites() {
         <!-- ACTIONS -->
         <div class="mt-auto d-flex justify-content-end">
 
-            <button class="btn btn-sm btn-outline-primary"
-                    onclick="openEntry(${e.id})">
-                View
-            </button>
+        <button class="btn btn-sm btn-outline-primary view-btn"
+                data-entry='${JSON.stringify(e)}'>
+            View
+        </button>
 
         </div>
 
@@ -114,10 +114,59 @@ function loadFavorites() {
     });
 }
 
-function openEntry(id) {
-    // Na teraz: redirect (później modal reuse z Diary)
-    window.location.href = `/Diary/Details/${id}`;
-}
+        $(document).on('click', '.view-btn', function () {
+
+            const entry = JSON.parse($(this).attr('data-entry'));
+            showEntryModal(entry);
+        });
+
+                function showEntryModal(entry) {
+            $('#entryModalTitle').text(entry.title);
+            $('#entryModalContent').text(entry.content);
+
+            // Tagi
+            $('#entryModalTags').html(
+                (entry.tags || [])
+                    .map(t => `<span class="badge bg-secondary me-1">${t}</span>`)
+                    .join('')
+            );
+
+            // Ulubione
+            $('#entryModalFavorite').html(
+                entry.isFavorite
+                    ? '<span class="text-warning">⭐ Favorite</span>'
+                    : '<span class="text-muted">Not Favorite</span>'
+            );
+
+            // --- LOGIKA PRZYCISKÓW ---
+
+            // Edycja: Przekierowanie do osobnej strony edycji, którą zrobiliśmy
+            $('#editEntryBtn').off('click').on('click', function() {
+                window.location.href = '/Diary/Edit/' + entry.id;
+            });
+
+            // Usuwanie: Wywołanie API
+            $('#deleteEntryBtn').off('click').on('click', function() {
+                if (confirm('Are you sure you want to delete this memory?')) {
+                    $.ajax({
+                        url: '/api/diary/' + entry.id,
+                        type: 'DELETE',
+                        success: function() {
+                            // Zamknij modal i odśwież listę
+                            bootstrap.Modal.getInstance(document.getElementById('entryModal')).hide();
+                            loadFavorites();
+                        },
+                        error: function() {
+                            alert('Error deleting entry.');
+                        }
+                    });
+                }
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById('entryModal'));
+            modal.show();
+        }
+
 </script>
 }
 

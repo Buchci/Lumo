@@ -68,7 +68,19 @@ namespace Lumo.Controllers.Api
             if (updated == null)
                 return NotFound();
 
-            return Ok(updated);
+            // MAPOWANIE NA DTO (zapobiega pętli referencji i błędom 500)
+            var result = new DiaryEntryReadDto
+            {
+                Id = updated.Id,
+                Title = updated.Title,
+                Content = updated.Content,
+                EntryDate = updated.EntryDate,
+                MoodRating = updated.MoodRating,
+                IsFavorite = updated.IsFavorite,
+                Tags = updated.Tags.Select(t => t.CustomName ?? string.Empty).ToList()
+            };
+
+            return Ok(result);
         }
 
         [HttpPost]

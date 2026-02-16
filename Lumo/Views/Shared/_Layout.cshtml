@@ -1,10 +1,18 @@
 ﻿@using Microsoft.Extensions.Options
 @inject IOptions<Lumo.Models.ThemeOptions> Theme
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Lumo.Models.ApplicationUser> UserManager
 @{
     bool darkMode = false;
     var colors = darkMode ? Theme.Value.Dark : Theme.Value.Light;
+    // Pobieramy nickname, jeśli użytkownik jest zalogowany
+    string userDisplayName = "User"; 
+    if (User.Identity.IsAuthenticated)
+    {
+        var appUser = await UserManager.GetUserAsync(User);
+        userDisplayName = appUser?.Nickname ?? User.Identity.Name;
+}
 }
 <style>
     :root {
@@ -106,7 +114,7 @@
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    @User.Identity.Name
+                                    Cześć, @userDisplayName!
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
@@ -115,7 +123,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <form id="logoutForm" class="dropdown-item m-0 p-0" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" method="post">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-link nav-link m-0 p-0">
                                                 @Localizer["Logout"]
