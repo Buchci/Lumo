@@ -1,6 +1,7 @@
 using Lumo.Data;
 using Lumo.Models;
 using Lumo.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
@@ -32,7 +33,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.Configure<ThemeOptions>(
     builder.Configuration.GetSection("Theme")
 );
-
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Configure localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -71,5 +72,18 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Wywo�ujemy nasz� metod�
+        await Lumo.Data.DbInitializer.SeedData(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Wyst�pi� b��d podczas seedowania bazy danych.");
+    }
+}
 app.Run();

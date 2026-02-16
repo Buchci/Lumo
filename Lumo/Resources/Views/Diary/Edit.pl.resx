@@ -117,31 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Diary" xml:space="preserve">
-    <value>Diary</value>
+  <data name="BackToCalendar" xml:space="preserve">
+    <value>Powrót do kalendarza</value>
   </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favorites</value>
+  <data name="ContentLabel" xml:space="preserve">
+    <value>Treść wpisu</value>
   </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Hello</value>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Data</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="EditHeader" xml:space="preserve">
+    <value>Edytuj wspomnienie</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+  <data name="EditTitle" xml:space="preserve">
+    <value>Edytuj wpis</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+  <data name="ErrorSave" xml:space="preserve">
+    <value>Błąd podczas zapisywania zmian.</value>
   </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
+  <data name="FavoriteLabel" xml:space="preserve">
+    <value>Ulubione ⭐</value>
   </data>
-  <data name="Statistics" xml:space="preserve">
-    <value>Statistics</value>
+  <data name="Mood1" xml:space="preserve">
+    <value>😢 Bardzo źle</value>
   </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
+  <data name="Mood2" xml:space="preserve">
+    <value>☹️ Źle</value>
+  </data>
+  <data name="Mood3" xml:space="preserve">
+    <value>😐 Neutralnie</value>
+  </data>
+  <data name="Mood4" xml:space="preserve">
+    <value>🙂 Dobrze</value>
+  </data>
+  <data name="Mood5" xml:space="preserve">
+    <value>😄 Wyśmienicie</value>
+  </data>
+  <data name="MoodLabel" xml:space="preserve">
+    <value>Nastrój</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Zapisz zmiany</value>
+  </data>
+  <data name="TagsLabel" xml:space="preserve">
+    <value>Tagi</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Tytuł</value>
   </data>
 </root>

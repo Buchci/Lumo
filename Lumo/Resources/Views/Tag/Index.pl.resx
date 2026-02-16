@@ -117,31 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Diary" xml:space="preserve">
-    <value>Diary</value>
+  <data name="AddNewTag" xml:space="preserve">
+    <value>Dodaj nowy tag</value>
   </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favorites</value>
+  <data name="AddTagBtn" xml:space="preserve">
+    <value>Dodaj tag</value>
   </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Hello</value>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć ten tag?</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="DeleteBtn" xml:space="preserve">
+    <value>Usuń</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+  <data name="ErrorCreateTag" xml:space="preserve">
+    <value>Błąd podczas tworzenia tagu:</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+  <data name="ErrorDeleteTag" xml:space="preserve">
+    <value>Nie udało się usunąć tagu.</value>
   </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
+  <data name="ExistingTags" xml:space="preserve">
+    <value>Istniejące tagi</value>
   </data>
-  <data name="Statistics" xml:space="preserve">
-    <value>Statistics</value>
+  <data name="GlobalBadge" xml:space="preserve">
+    <value>Globalny</value>
   </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
+  <data name="ManageTagsTitle" xml:space="preserve">
+    <value>Zarządzaj Tagami</value>
+  </data>
+  <data name="TagNameLabel" xml:space="preserve">
+    <value>Nazwa tagu</value>
+  </data>
+  <data name="TagNamePlaceholder" xml:space="preserve">
+    <value>Wpisz nazwę tagu...</value>
   </data>
 </root>

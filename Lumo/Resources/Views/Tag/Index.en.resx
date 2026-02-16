@@ -117,31 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Diary" xml:space="preserve">
-    <value>Diary</value>
+  <data name="AddNewTag" xml:space="preserve">
+    <value>Add New Tag</value>
   </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favorites</value>
+  <data name="AddTagBtn" xml:space="preserve">
+    <value>Add Tag</value>
   </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Hello</value>
+  <data name="ConfirmDeleteTag" xml:space="preserve">
+    <value>Are you sure you want to delete this tag?</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
+  <data name="DeleteBtn" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+  <data name="ErrorCreateTag" xml:space="preserve">
+    <value>Error creating tag:</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+  <data name="ErrorDeleteTag" xml:space="preserve">
+    <value>Failed to delete tag.</value>
   </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
+  <data name="ExistingTags" xml:space="preserve">
+    <value>Existing Tags</value>
   </data>
-  <data name="Statistics" xml:space="preserve">
-    <value>Statistics</value>
+  <data name="GlobalBadge" xml:space="preserve">
+    <value>Global</value>
   </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
+  <data name="ManageTagsTitle" xml:space="preserve">
+    <value>Manage Tags</value>
+  </data>
+  <data name="TagNameLabel" xml:space="preserve">
+    <value>Tag Name</value>
+  </data>
+  <data name="TagNamePlaceholder" xml:space="preserve">
+    <value>Enter tag name...</value>
   </data>
 </root>

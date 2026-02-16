@@ -1,8 +1,58 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "Email Potwierdzony";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow border-0 p-5" style="border-radius: 20px; background-color: var(--card-bg);">
+
+                <h1 class="fw-bold mb-3" style="color: var(--main-color);">Konto aktywowane! 🌿</h1>
+
+                <p class="lead mb-4" style="color: var(--text-color);">
+                    Twój adres e-mail został pomyślnie potwierdzony. Witaj w społeczności Lumo!
+                </p>
+
+                <div class="alert alert-info border-0 shadow-sm" style="background-color: rgba(40, 167, 69, 0.1); color: var(--text-color);">
+                    <p class="mb-0">
+                        Zostaniesz automatycznie przekierowany do strony logowania za <br />
+                        <span id="countdown" class="fw-bold" style="font-size: 1.5rem; color: var(--main-color);">5</span> sekund...
+                    </p>
+                </div>
+
+                <div class="mt-4">
+                    <a href="/Identity/Account/Login" class="btn btn-lumo py-2 px-4">
+                        Zaloguj się teraz (jeśli nie chcesz czekać)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Logika odliczania i przekierowania
+        let seconds = 5;
+        const countdownElement = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = '/Identity/Account/Login';
+            }
+        }, 1000);
+    </script>
+}
+
+<style>
+    #countdown {
+        display: inline-block;
+        min-width: 1.2em;
+    }
+</style>

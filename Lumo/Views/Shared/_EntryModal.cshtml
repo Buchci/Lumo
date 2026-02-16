@@ -1,7 +1,7 @@
 ﻿<div class="modal fade" id="entryModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="border: 4px solid var(--border-color); border-radius: 2px;">
+            <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
                 <h5 class="modal-title" id="entryModalTitle"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -10,7 +10,7 @@
                 <div id="entryModalTags" class="mb-2"></div>
                 <div id="entryModalFavorite" class="mt-2 fw-bold"></div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
                 <button type="button" id="editEntryBtn" class="btn btn-primary">Edit</button>
                 <button type="button" id="deleteEntryBtn" class="btn btn-danger">Delete</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -18,3 +18,11 @@
         </div>
     </div>
 </div>
+<style>
+        /* Modal */
+    [data-bs-theme="dark"] #entryModal .modal-content {
+        background-color: #1e1e1e;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+</style>

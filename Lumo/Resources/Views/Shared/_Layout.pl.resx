@@ -123,6 +123,9 @@
   <data name="Favorites" xml:space="preserve">
     <value>Ulubione</value>
   </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Cześć</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Strona główna</value>
   </data>

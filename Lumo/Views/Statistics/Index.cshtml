@@ -1,33 +1,38 @@
 ﻿@{
-    ViewData["Title"] = "Statistics";
+    ViewData["Title"] = "Statystyki Twojego Lumo";
 }
-<div class="container mt-5" id="statisticsContainer">
 
-    <!-- OVERALL -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body text-center">
-            <h5 class="text-muted">Overall Average Mood</h5>
-            <h1 id="overallAverageMood" class="display-4 fw-bold">–</h1>
+<div class="container mt-5">
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <h2 class="display-5 fw-bold" style="color: var(--main-color);">Twoje Samopoczucie</h2>
+            <p class="text-muted">Analiza Twoich wspomnień na przestrzeni czasu</p>
         </div>
     </div>
 
-    <div class="row">
-        <!-- MONTHLY -->
-        <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="mb-3">Monthly Averages</h5>
-                    <ul class="list-group" id="monthlyAveragesList"></ul>
-                </div>
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 glass-effect text-center p-4" style="border-radius: 20px;">
+                <h5 class="text-muted mb-2">Średni Nastrój</h5>
+                <h1 id="overallAverageMood" class="display-2 fw-bold mb-0" style="color: var(--main-color);">–</h1>
+                <div id="moodEmoji" class="fs-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px;">
+                <h5 class="mb-4"><i class="bi bi-graph-up-arrow me-2"></i>Trend Nastroju</h5>
+                <canvas id="moodChart" height="250"></canvas>
             </div>
         </div>
 
-        <!-- TAG USAGE -->
-        <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="mb-3">Tag Usage</h5>
-                    <ul class="list-group" id="tagUsageList"></ul>
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px;">
+                <h5 class="mb-4"><i class="bi bi-tags-fill me-2"></i>Używane Tagi</h5>
+                <canvas id="tagsChart"></canvas>
+                <div id="tagUsageList" class="mt-4">
                 </div>
             </div>
         </div>
@@ -36,6 +41,7 @@
 
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -43,39 +49,71 @@
             loadStatistics();
         });
 
+        function getMoodEmoji(score) {
+            if (score >= 4.5) return "😄";
+            if (score >= 3.5) return "🙂";
+            if (score >= 2.5) return "😐";
+            if (score >= 1.5) return "☹️";
+            return "😢";
+        }
+
         function loadStatistics() {
             $.get('/api/statistics', function (data) {
 
-                // OVERALL
-                $('#overallAverageMood').text(data.overallAverageMood.toFixed(2));
+                // 1. ŚREDNIA I EMOJI
+                const avg = data.overallAverageMood;
+                $('#overallAverageMood').text(avg.toFixed(2));
+                $('#moodEmoji').text(getMoodEmoji(avg));
 
-                // MONTHLY
-                const $monthly = $('#monthlyAveragesList');
-                $monthly.empty();
-
-                data.monthlyAverages.forEach(m => {
-                    const monthName = new Date(m.year, m.month - 1)
-                        .toLocaleString('en-US', { month: 'long' });
-
-                    $monthly.append(`
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>${monthName} ${m.year}</span>
-                            <span class="fw-bold">${m.averageMood.toFixed(2)}</span>
-                        </li>
-                    `);
+                // 2. WYKRES LINIOWY (Trend Nastroju)
+                const monthlyCtx = document.getElementById('moodChart').getContext('2d');
+                new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: data.monthlyAverages.map(m => {
+                            return new Date(m.year, m.month - 1).toLocaleString('pl-PL', { month: 'short' }) + ' ' + m.year;
+                        }),
+                        datasets: [{
+                            label: 'Średni Nastrój',
+                            data: data.monthlyAverages.map(m => m.averageMood),
+                            borderColor: '#28a745', // var(--main-color)
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#fff',
+                            pointBorderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { min: 1, max: 5, ticks: { stepSize: 1 } }
+                        }
+                    }
                 });
 
-                // TAG USAGE
-                const $tags = $('#tagUsageList');
-                $tags.empty();
-
-                data.tagUsage.forEach(t => {
-                    $tags.append(`
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>${t.name}</span>
-                            <span class="badge bg-primary rounded-pill">${t.count}</span>
-                        </li>
-                    `);
+                // 3. WYKRES KOŁOWY (Tagi)
+                const tagsCtx = document.getElementById('tagsChart').getContext('2d');
+                new Chart(tagsCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.tagUsage.map(t => t.name),
+                        datasets: [{
+                            data: data.tagUsage.map(t => t.count),
+                            backgroundColor: [
+                                '#28a745', '#1e7e34', '#a5d6a7', '#4caf50', '#81c784'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 20 } }
+                        }
+                    }
                 });
             });
         }

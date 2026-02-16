@@ -117,31 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Diary" xml:space="preserve">
-    <value>Diary</value>
-  </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Hello</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
-  </data>
   <data name="Statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>
-  <data name="Tags" xml:space="preserve">
+  <data name="FilterHeader" xml:space="preserve">
+    <value>Filter:</value>
+  </data>
+  <data name="AllTags" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AddNewEntry" xml:space="preserve">
+    <value>Add New Entry</value>
+  </data>
+  <data name="HideForm" xml:space="preserve">
+    <value>Hide Form</value>
+  </data>
+  <data name="TitleLabel" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitlePlaceholder" xml:space="preserve">
+    <value>Entry title...</value>
+  </data>
+  <data name="ContentLabel" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="ContentPlaceholder" xml:space="preserve">
+    <value>Write your thoughts...</value>
+  </data>
+  <data name="TagsLabel" xml:space="preserve">
     <value>Tags</value>
+  </data>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="MoodLabel" xml:space="preserve">
+    <value>Mood</value>
+  </data>
+  <data name="MoodVeryBad" xml:space="preserve">
+    <value>😢 Very Bad</value>
+  </data>
+  <data name="MoodBad" xml:space="preserve">
+    <value>☹️ Bad</value>
+  </data>
+  <data name="MoodNeutral" xml:space="preserve">
+    <value>😐 Neutral</value>
+  </data>
+  <data name="MoodGood" xml:space="preserve">
+    <value>🙂 Good</value>
+  </data>
+  <data name="MoodExcellent" xml:space="preserve">
+    <value>😄 Excellent</value>
+  </data>
+  <data name="FavoriteLabel" xml:space="preserve">
+    <value>Favorite ⭐</value>
+  </data>
+  <data name="AddEntryBtn" xml:space="preserve">
+    <value>Add Entry</value>
+  </data>
+  <data name="CalendarHeader" xml:space="preserve">
+    <value>Diary Calendar</value>
+  </data>
+  <data name="Prev" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to delete this entry?</value>
   </data>
 </root>

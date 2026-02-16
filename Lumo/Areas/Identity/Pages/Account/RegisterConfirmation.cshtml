@@ -1,0 +1,68 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Potwierdź rejestrację";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow border-0 p-5" style="border-radius: 20px; background-color: var(--card-bg);">
+                <div class="mb-4">
+                    @* Ikona wysyłania/listu *@
+                    <i class="bi bi-envelope-check" style="font-size: 4rem; color: var(--main-color);"></i>
+                </div>
+
+                <h2 class="fw-bold mb-3" style="color: var(--main-color);">Sprawdź swoją pocztę</h2>
+
+                @if (Model.DisplayConfirmAccountLink)
+                {
+                    @* Ten blok zostanie wyświetlony tylko jeśli coś sknocimy w konfiguracji EmailSender *@
+                    <div class="alert alert-warning">
+                        <p>Aplikacja nie ma skonfigurowanego serwera poczty. Normalnie link byłby wysłany mailem:</p>
+                        <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-warning">Kliknij tutaj, aby potwierdzić</a>
+                    </div>
+                }
+                else
+                {
+                    <p class="lead mb-4" style="color: var(--text-color);">
+                        Wysłaliśmy link aktywacyjny na adres: <br />
+                        <strong style="color: var(--secondary-color);">@Model.Email</strong>
+                    </p>
+                    <p class="text-muted mb-4">
+                        Kliknij w link w wiadomości, aby dokończyć rejestrację i zacząć pisać swoje pierwsze wspomnienie w Lumo.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="/" class="btn btn-lumo-secondary">Wróć do strony głównej</a>
+                    </div>
+                }
+            </div>
+
+            <p class="mt-4 text-muted small">
+                Nie dostałeś maila? Sprawdź folder Spam lub <a href="/Identity/Account/ResendEmailConfirmation" class="text-decoration-none" style="color: var(--main-color);">wyślij ponownie</a>.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Dodatkowa animacja dla ikony */
+    .bi-envelope-check {
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>

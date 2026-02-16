@@ -1,22 +1,295 @@
+/* =========================================
+   MOTYW: LUMO NATURE (Green & Paper)
+   ========================================= */
+
+:root {
+    --main-color: #2E7D32;
+    --secondary-color: #4CAF50;
+    --bg-gradient-start: #FDFBF7;
+    --bg-gradient-end: #E8F5E9;
+    --text-color: #2C3E50;
+    --card-bg: #FFFFFF;
+    --border-color: #E0E0E0;
+    --navbar-bg: #FFFFFF;
+}
+
+[data-bs-theme="dark"] {
+    --main-color: #2E7D32;
+    --secondary-color: #1B5E20;
+    --bg-gradient-start: #121212;
+    --bg-gradient-end: #0A1A0A;
+    --text-color: #E0E0E0;
+    --card-bg: #1E1E1E;
+    --border-color: #333333;
+    --navbar-bg: #1E1E1E;
+}
+
+/* =========================================
+   STRUKTURA I ANIMACJE
+   ========================================= */
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    padding-bottom: 60px;
+    color: var(--text-color);
+    background-color: var(--bg-gradient-start); /* fallback */
+    min-height: 100vh;
+    transition: color 0.5s ease;
+    position: relative;
+    z-index: 0;
+}
+
+    /* Warstwa z Jasnym Gradientem */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #FDFBF7 0%, #E8F5E9 100%);
+        z-index: -2;
+        transition: opacity 0.5s ease;
+    }
+
+    /* Warstwa z Ciemnym Gradientem */
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #121212 0%, #0A1A0A 100%);
+        z-index: -1;
+        opacity: 0; /* Domyœlnie ukryta */
+        transition: opacity 0.5s ease;
+    }
+
+/* W trybie ciemnym pokazujemy górn¹ warstwê */
+[data-bs-theme="dark"] body::after {
+    opacity: 1;
+}
+
+/* Wy³¹czamy animacjê startow¹ dla pseudo-elementów */
+.no-transition::before,
+.no-transition::after {
+    transition: none !important;
+}
+/* Klasa blokuj¹ca migniêcia - musi byæ na koñcu, by nadpisywaæ */
+.no-transition, .no-transition * {
+    transition: none !important;
+}
+
+/* =========================================
+   KOMPONENTY Z ANIMACJ¥
+   ========================================= */
+
+/* Dodajemy transition do wszystkiego, co ma zmieniaæ kolor */
+.card, .navbar, .footer, .form-control, .btn, .nav-link {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
+}
+footer {
+    background-color: var(--navbar-bg);
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.form-control, .form-select {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+    .form-control:focus {
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+    }
+
+/* Poprawka widocznoœci tekstu w ciemnych inputach */
+[data-bs-theme="dark"] .form-control {
+    background-color: #2b2b2b;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+    .btn-primary:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+/* Styl dla przycisków w menu */
+.nav-link-custom {
+    border-bottom: 1.5px solid var(--main-color); /* Zielona obwódka */
+    border-radius: 10px; /* Wyg³adzone krawêdzie */
+    color: var(--main-color) !important; /* Zielony tekst */
+    padding: 6px 15px !important; /* Przestrzeñ wewn¹trz */
+    margin: 0 5px; /* Odstêpy miêdzy przyciskami */
+    transition: all 0.3s ease !important; /* P³ynna animacja hovera */
+    display: inline-block;
+    text-decoration: none !important;
+}
+
+    .nav-link-custom:hover {
+        background-color: var(--main-color); /* Wype³nienie przy najechaniu */
+        color: var(--card-bg) !important; /* Tekst staje siê jasny/ciemny zale¿nie od t³a */
+        text-decoration: none !important;
+    }
+
+    /* Styl dla nieaktywnych (niezalogowany u¿ytkownik) */
+    .nav-link-custom.disabled {
+        border-color: var(--border-color);
+        color: var(--border-color) !important;
+        opacity: 0.6;
+        text-decoration: none !important;
+    }
+.navbar-brand-custom {
+    color: var(--main-color) !important;
+    font-weight: 800; /* Pogrubienie */
+    text-transform: uppercase; /* Du¿e litery dla elegancji */
+    letter-spacing: 1px; /* Lekkie rozstrzelenie liter */
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+    font-size:25px;
+    margin-right:8px;
+}
+
+    .navbar-brand-custom:hover {
+        color: var(--secondary-color) !important; /* Jaœniejsza zieleñ przy najechaniu */
+    }
+[data-bs-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] .dropdown-item {
+    color: var(--text-color);
+}
+
+    [data-bs-theme="dark"] .dropdown-item:hover {
+        background-color: var(--main-color);
+        color: #000;
+    }
+/* 1. Definiujemy co ma siê animowaæ globalnie dla list-group-item */
+.list-group-item {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+    /* Dodajemy background-color do listy animacji */
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+/* 2. Naprawa dla inputów - animujemy t³o i tekst */
+.form-control {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.2s ease;
+}
+
+[data-bs-theme="dark"] .form-control {
+    background-color: #2b2b2b !important;
+    color: #fff !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Stylizacja przycisku "Add Tag" aby pasowa³ do Lumo */
+.btn-success {
+    background-color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}
+
+.btn-success:hover {
+    background-color: var(--secondary-color) !important;
+}
+/* Naprawa dla dropdownów (select) */
+.form-select {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+    /* Dodajemy transition dla t³a, tekstu i obramowania */
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.2s ease !important;
+}
+
+/* Naprawa dla kontenera tagów w edycji */
+.tag-container-lumo {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--secondary-color);
+    outline:none;
+}
+/* Naprawa dla checkboxów i ich etykiet */
+.form-check-input, .form-check-label {
+
+    transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease !important;
+}
+/* G³ówny przycisk Lumo (kontur -> wype³nienie) */
+.btn-lumo {
+    border: 2px solid var(--main-color) !important;
+    color: var(--main-color) !important;
+    background-color: transparent !important;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out !important;
+}
+
+    .btn-lumo:hover {
+        background-color: var(--main-color) !important;
+        color: #ffffff !important; /* Bia³y tekst na zielonym tle */
+        transform: translateY(-1px); /* Delikatne uniesienie */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+/* Przycisk "Today" (subtelniejszy, np. szary/drugoplanowy) */
+.btn-lumo-secondary {
+    border: 2px solid var(--border-color) !important;
+    color: var(--text-color) !important;
+    background-color: transparent !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+    .btn-lumo-secondary:hover {
+        background-color: var(--border-color) !important;
+        color: var(--text-color) !important;
+    }
+.glass-effect {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color) !important;
+    transition: transform 0.3s ease;
+}
+
+    .glass-effect:hover {
+        transform: translateY(-5px);
+    }
+
+/* Dostosowanie wykresów do Dark Mode */
+[data-bs-theme="dark"] .card {
+    background-color: #1a1a1a;
 }

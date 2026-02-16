@@ -1,27 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Manage Tags";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["ManageTagsTitle"];
 }
 
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">Manage Tags 🏷️</h2>
+    <h2 class="mb-4 text-center">@Localizer["ManageTagsTitle"] 🏷️</h2>
 
-    <!-- Form to add a new tag -->
     <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">Add New Tag</div>
+        <div class="card-header" style="background-color: var(--secondary-color); color: #FFF;">
+            @Localizer["AddNewTag"]
+        </div>
         <div class="card-body">
             <form id="createTagForm">
                 <div class="mb-3">
-                    <label for="customName" class="form-label">Tag Name</label>
-                    <input type="text" class="form-control" id="customName" placeholder="Enter tag name..." required>
+                    <label for="customName" class="form-label">@Localizer["TagNameLabel"]</label>
+                    <input type="text" class="form-control" id="customName" placeholder="@Localizer["TagNamePlaceholder"]" required>
                 </div>
-                <button type="submit" class="btn btn-success">Add Tag</button>
+                <button type="submit" class="btn btn-success">@Localizer["AddTagBtn"]</button>
             </form>
         </div>
     </div>
 
-    <!-- Existing tags list -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-secondary text-white">Existing Tags</div>
+    <div class="card shadow-sm"
+         id="tagsTableContainer"
+         data-confirm-delete="@Localizer["ConfirmDeleteTag"]"
+         data-error-create="@Localizer["ErrorCreateTag"]"
+         data-error-delete="@Localizer["ErrorDeleteTag"]"
+         data-badge-global="@Localizer["GlobalBadge"]"
+         data-btn-delete="@Localizer["DeleteBtn"]">
+        <div class="card-header" style="background-color: var(--secondary-color); color: #FFF;">
+            @Localizer["ExistingTags"]
+        </div>
         <div class="card-body">
             <ul id="tagsList" class="list-group"></ul>
         </div>
@@ -30,17 +40,21 @@
 
 @section Scripts {
     <script>
-        // Load tags from API
-                function loadTags() {
+        function loadTags() {
+            const $container = $('#tagsTableContainer');
+            const globalBadgeText = $container.data('badge-global');
+            const deleteBtnText = $container.data('btn-delete');
+
             $.get('/api/tag', function(tags) {
                 var $list = $('#tagsList');
                 $list.empty();
 
                 tags.forEach(t => {
+                    const tagName = t.customName || t.resourceKey;
                     var listItem = `
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${t.customName} ${t.isGlobal ? '<span class="badge bg-info text-dark">Global</span>' : ''}
-                            ${t.isGlobal ? '' : `<button class="btn btn-sm btn-danger delete-btn" data-id="${t.id}">Delete</button>`}
+                            ${tagName} ${t.isGlobal ? `<span class="badge bg-info text-dark">${globalBadgeText}</span>` : ''}
+                            ${t.isGlobal ? '' : `<button class="btn btn-sm btn-danger delete-btn" data-id="${t.id}">${deleteBtnText}</button>`}
                         </li>`;
                     $list.append(listItem);
                 });
@@ -50,12 +64,13 @@
         $(document).ready(function() {
             loadTags();
 
-            // Handle tag creation
+            const $container = $('#tagsTableContainer');
+
+            // Tworzenie tagu
             $('#createTagForm').on('submit', function(e) {
                 e.preventDefault();
                 var data = {
-                    customName: $('#customName').val(),
-                    isGlobal: $('#isGlobal').is(':checked')
+                    customName: $('#customName').val()
                 };
 
                 $.ajax({
@@ -68,15 +83,15 @@
                         loadTags();
                     },
                     error: function(err) {
-                        alert('Error creating tag: ' + err.responseJSON?.message);
+                        alert($container.data('error-create') + ' ' + (err.responseJSON?.message || ''));
                     }
                 });
             });
 
-            // Handle tag deletion
+            // Usuwanie tagu
             $('#tagsList').on('click', '.delete-btn', function() {
                 var id = $(this).data('id');
-                if (!confirm('Are you sure you want to delete this tag?')) return;
+                if (!confirm($container.data('confirm-delete'))) return;
 
                 $.ajax({
                     url: '/api/tag/' + id,
@@ -85,7 +100,7 @@
                         loadTags();
                     },
                     error: function() {
-                        alert('Failed to delete tag.');
+                        alert($container.data('error-delete'));
                     }
                 });
             });

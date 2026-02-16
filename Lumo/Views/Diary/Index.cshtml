@@ -1,80 +1,91 @@
-﻿@model List<Lumo.Models.DiaryEntry>
-
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model List<Lumo.Models.DiaryEntry>
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Diary";
+    ViewData["Title"] = Localizer["CalendarHeader"];
 }
 
 <link rel="stylesheet" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
 
 <div class="container mt-5">
-    <!-- Add New Entry Form -->
-    <div class="text-left mb-4">
-        <button id="toggleEntryForm" class="btn btn-primary">Add New Entry</button>
+    <div id="tagFiltersContainer" class="card shadow-sm mb-4 border-0" style="background-color: var(--card-bg); border-radius: 15px;">
+        <div class="card-body py-3">
+            <div class="d-flex align-items-center flex-wrap gap-2">
+                <span class="text-muted small fw-bold text-uppercase me-2">@Localizer["FilterHeader"]</span>
+                <div id="tagFilters" class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-sm btn-lumo filter-tag active" data-tag="all">@Localizer["AllTags"]</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card shadow-sm mb-5" id="createEntryCard" style="display: none;">
 
-        <div class="card shadow-sm mb-5">
+    <div class="text-left mb-4">
+        <button id="toggleEntryForm"
+                class="btn btn-primary"
+                data-text-add="@Localizer["AddNewEntry"]"
+                data-text-hide="@Localizer["HideForm"]">
+            @Localizer["AddNewEntry"]
+        </button>
+    </div>
+
+    <div class="card shadow-sm mb-5" id="createEntryCard" style="display: none;">
         <div class="card-body">
             <form id="createEntryForm">
                 <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="Entry title..." required>
+                    <label for="title" class="form-label">@Localizer["TitleLabel"]</label>
+                    <input type="text" class="form-control" id="title" placeholder="@Localizer["TitlePlaceholder"]" required>
                 </div>
                 <div class="mb-3">
-                    <label for="content" class="form-label">Content</label>
-                    <textarea class="form-control" id="content" rows="4" placeholder="Write your thoughts..." required></textarea>
+                    <label for="content" class="form-label">@Localizer["ContentLabel"]</label>
+                    <textarea class="form-control" id="content" rows="4" placeholder="@Localizer["ContentPlaceholder"]" required></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Tags</label>
+                    <label class="form-label">@Localizer["TagsLabel"]</label>
                     <div id="tags" class="d-flex flex-wrap gap-2"></div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="entryDate" class="form-label">Date</label>
+                        <label for="entryDate" class="form-label">@Localizer["DateLabel"]</label>
                         <input type="date" class="form-control" id="entryDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                     </div>
                     <div class="col-md-6">
-                        <label for="moodRating" class="form-label">Mood</label>
+                        <label for="moodRating" class="form-label">@Localizer["MoodLabel"]</label>
                         <select class="form-select" id="moodRating">
-                            <option value="1">😢 Very Bad</option>
-                            <option value="2">☹️ Bad</option>
-                            <option value="3" selected>😐 Neutral</option>
-                            <option value="4">🙂 Good</option>
-                            <option value="5">😄 Excellent</option>
+                            <option value="1">@Localizer["MoodVeryBad"]</option>
+                            <option value="2">@Localizer["MoodBad"]</option>
+                            <option value="3" selected>@Localizer["MoodNeutral"]</option>
+                            <option value="4">@Localizer["MoodGood"]</option>
+                            <option value="5">@Localizer["MoodExcellent"]</option>
                         </select>
                     </div>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="isFavorite">
-                    <label class="form-check-label" for="isFavorite">Favorite ⭐</label>
+                    <label class="form-check-label" for="isFavorite">@Localizer["FavoriteLabel"]</label>
                 </div>
-                <button type="submit" class="btn btn-success w-100">Add Entry</button>
+                <button type="submit" class="btn btn-success w-100">@Localizer["AddEntryBtn"]</button>
             </form>
         </div>
     </div>
-    </div>
 
-    <h3 class="mb-3">Diary Calendar</h3>
+    <h3 class="mb-3">@Localizer["CalendarHeader"]</h3>
 
-    <!-- Month Navigation -->
     <div class="d-flex justify-content-between align-items-center mb-2">
         <div>
-            <button id="prevMonth" class="btn btn-outline-primary">&lt; Prev</button>
-            <button id="nextMonth" class="btn btn-outline-primary ms-2">Next &gt;</button>
-            <button id="today" class="btn btn-outline-secondary ms-2">Today</button>
+            <button id="prevMonth" class="btn btn-lumo">@Localizer["Prev"]</button>
+            <button id="nextMonth" class="btn btn-lumo ms-2">@Localizer["Next"]</button>
+            <button id="today" class="btn btn-lumo-secondary ms-2">@Localizer["Today"]</button>
         </div>
         <h4 id="currentMonth" class="mb-0"></h4>
     </div>
 
-    <div id="tui-calendar" style="height: 700px; border: 1px solid #ccc; border-radius: 8px;"></div>
+    <div id="tui-calendar" style="height: 700px; border: 4px solid var(--border-color); border-radius: 8px;" data-confirm-delete="@Localizer["ConfirmDelete"]"></div>
 </div>
 
-<!-- Custom Modal for Entry Details -->
 @await Html.PartialAsync("_EntryModal")
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
 <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
@@ -83,52 +94,24 @@
 <script src="~/js/Diary/Index.js"></script>
 
 <style>
-.tui-full-calendar-container {
-    background: white;
-    border-radius: 8px;
-}
-.tui-full-calendar-schedule {
-    border-radius: 6px;
-    padding: 3px 5px;
-    font-size: 0.9rem;
-}
+    /* Twoje style CSS pozostają bez zmian - są już zoptymalizowane pod tryb ciemny i filtry */
+    .tui-full-calendar-container {
+        background: white;
+        border-radius: 8px;
+    }
 
-/* Responsive modal for long content and tags */
-#entryModal .modal-dialog {
-    max-width: 700px;
-}
-#entryModalTitle {
-    padding-left:15px;
-    padding-right:15px;
-    padding-top:5px;
-}
-#entryModalBtnClose {
-    margin:10px;
-}
+    .tui-full-calendar-schedule {
+        border-radius: 6px;
+        padding: 3px 5px;
+        font-size: 0.9rem;
+    }
 
-#entryModal .modal-content {
-    display: flex;
-    flex-direction: column;
-            padding-left: 15px;
-            padding-right: 15px;
-}
-
-#entryModal .modal-body {
-    overflow: visible;
-    word-break: break-word;
-    max-height: 50vh;
-    overflow-y: auto;
-}
-
-#entryModalTitle {
-    word-break: break-word;
-}
     .tui-full-calendar-weekday-schedule {
         min-height: 48px !important;
         padding: 6px !important;
-        display:flex;
+        display: flex;
         align-items: flex-start !important;
-        line-height:35px !important;
+        line-height: 35px !important;
         border-left: 5px solid;
     }
 
@@ -139,4 +122,56 @@
         text-overflow: ellipsis;
     }
 
+    [data-bs-theme="dark"] .tui-full-calendar-container, [data-bs-theme="dark"] .tui-full-calendar-layout {
+        background-color: #121212 !important;
+    }
+
+    [data-bs-theme="dark"] .tui-full-calendar-weekday-grid-date-title, [data-bs-theme="dark"] .tui-full-calendar-month-dayname span, [data-bs-theme="dark"] .tui-full-calendar-weekday-grid-date {
+        color: #FFFFFF !important;
+    }
+
+    [data-bs-theme="dark"] .tui-full-calendar-month-guide-block, [data-bs-theme="dark"] .tui-full-calendar-weekday-grid, [data-bs-theme="dark"] .tui-full-calendar-weekday-border, [data-bs-theme="dark"] .tui-full-calendar-month-dayname, [data-bs-theme="dark"] .tui-full-calendar-weekday-grid-line {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    [data-bs-theme="dark"] .tui-full-calendar-month-week-item {
+        background-color: #121212 !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    [data-bs-theme="dark"] .tui-full-calendar-weekday-grid-date-decorator {
+        background-color: var(--main-color) !important;
+        color: #000 !important;
+    }
+
+    .tui-full-calendar-weekday-schedule[style*="border-color: rgb(255, 187, 0)"], .tui-full-calendar-weekday-schedule[style*="#ffbb00"] {
+        box-shadow: 0 0 20px rgba(255, 187, 0, 0.6) !important;
+        border-left-width: 8px !important;
+        font-weight: bold;
+    }
+
+    .filter-tag {
+        border-radius: 20px;
+        padding: 5px 15px;
+        transition: all 0.3s ease;
+        border: 1px solid var(--main-color);
+        color: var(--main-color);
+        background: transparent;
+        cursor: pointer;
+    }
+
+        .filter-tag:hover, .filter-tag.active {
+            background-color: var(--main-color) !important;
+            color: white !important;
+        }
+
+    [data-bs-theme="dark"] .filter-tag {
+        border-color: var(--main-color);
+        color: #e0e0e0;
+    }
+
+    [data-bs-theme="dark"] #tagFiltersContainer {
+        background-color: #1e1e1e !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
