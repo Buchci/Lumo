@@ -27,8 +27,12 @@
          data-confirm-delete="@Localizer["ConfirmDeleteTag"]"
          data-error-create="@Localizer["ErrorCreateTag"]"
          data-error-delete="@Localizer["ErrorDeleteTag"]"
+         data-error-update="@Localizer["ErrorUpdateTag"]"
          data-badge-global="@Localizer["GlobalBadge"]"
-         data-btn-delete="@Localizer["DeleteBtn"]">
+         data-btn-delete="@Localizer["DeleteBtn"]"
+         data-btn-edit="@Localizer["EditBtn"]"
+         data-btn-save="@Localizer["SaveBtn"]"
+         data-btn-cancel="@Localizer["CancelBtn"]">
         <div class="card-header" style="background-color: var(--secondary-color); color: #FFF;">
             @Localizer["ExistingTags"]
         </div>
@@ -44,6 +48,7 @@
             const $container = $('#tagsTableContainer');
             const globalBadgeText = $container.data('badge-global');
             const deleteBtnText = $container.data('btn-delete');
+            const editBtnText = $container.data('btn-edit');
 
             $.get('/api/tag', function(tags) {
                 var $list = $('#tagsList');
@@ -51,10 +56,20 @@
 
                 tags.forEach(t => {
                     const tagName = t.customName || t.resourceKey;
+                    const isGlobal = t.isGlobal;
+
                     var listItem = `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${tagName} ${t.isGlobal ? `<span class="badge bg-info text-dark">${globalBadgeText}</span>` : ''}
-                            ${t.isGlobal ? '' : `<button class="btn btn-sm btn-danger delete-btn" data-id="${t.id}">${deleteBtnText}</button>`}
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${t.id}">
+                            <div class="tag-display">
+                                <span class="tag-text">${tagName}</span>
+                                ${isGlobal ? `<span class="badge bg-info text-dark ms-2">${globalBadgeText}</span>` : ''}
+                            </div>
+                            <div class="tag-actions">
+                                ${!isGlobal ? `
+                                    <button class="btn btn-sm btn-outline-primary edit-btn me-1">${editBtnText}</button>
+                                    <button class="btn btn-sm btn-danger delete-btn">${deleteBtnText}</button>
+                                ` : ''}
+                            </div>
                         </li>`;
                     $list.append(listItem);
                 });
@@ -63,15 +78,12 @@
 
         $(document).ready(function() {
             loadTags();
-
             const $container = $('#tagsTableContainer');
 
-            // Tworzenie tagu
+            // Tworzenie tagu (POST)
             $('#createTagForm').on('submit', function(e) {
                 e.preventDefault();
-                var data = {
-                    customName: $('#customName').val()
-                };
+                var data = { customName: $('#customName').val() };
 
                 $.ajax({
                     url: '/api/tag',
@@ -83,14 +95,56 @@
                         loadTags();
                     },
                     error: function(err) {
-                        alert($container.data('error-create') + ' ' + (err.responseJSON?.message || ''));
+                        alert($container.data('error-create'));
                     }
                 });
             });
 
-            // Usuwanie tagu
+            // Wejście w tryb edycji
+            $('#tagsList').on('click', '.edit-btn', function() {
+                const $li = $(this).closest('li');
+                const $display = $li.find('.tag-display');
+                const $actions = $li.find('.tag-actions');
+                const currentName = $display.find('.tag-text').text();
+
+                const saveBtnText = $container.data('btn-save');
+                const cancelBtnText = $container.data('btn-cancel');
+
+                $display.html(`<input type="text" class="form-control form-control-sm edit-input" value="${currentName}">`);
+                $actions.html(`
+                    <button class="btn btn-sm btn-success save-btn me-1">${saveBtnText}</button>
+                    <button class="btn btn-sm btn-secondary cancel-btn">${cancelBtnText}</button>
+                `);
+            });
+
+            // Anulowanie edycji
+            $('#tagsList').on('click', '.cancel-btn', function() {
+                loadTags();
+            });
+
+            // Zapisywanie edycji (PUT)
+            $('#tagsList').on('click', '.save-btn', function() {
+                const $li = $(this).closest('li');
+                const id = $li.data('id');
+                const newName = $li.find('.edit-input').val();
+
+                $.ajax({
+                    url: '/api/tag/' + id,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ customName: newName }),
+                    success: function() {
+                        loadTags();
+                    },
+                    error: function() {
+                        alert($container.data('error-update'));
+                    }
+                });
+            });
+
+            // Usuwanie tagu (DELETE)
             $('#tagsList').on('click', '.delete-btn', function() {
-                var id = $(this).data('id');
+                const id = $(this).closest('li').data('id');
                 if (!confirm($container.data('confirm-delete'))) return;
 
                 $.ajax({

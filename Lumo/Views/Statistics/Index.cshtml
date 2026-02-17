@@ -1,19 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Statystyki Twojego Lumo";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["StatsTitle"];
+    var currentCulture = CultureInfo.CurrentCulture.Name; // Pobieramy kod języka (np. "pl-PL" lub "en-US")
 }
 
-<div class="container mt-5">
+<div class="container mt-5"
+     id="statsPage"
+     data-culture="@currentCulture"
+     data-chart-label="@Localizer["ChartLabel"]">
+
     <div class="row text-center mb-5">
         <div class="col-12">
-            <h2 class="display-5 fw-bold" style="color: var(--main-color);">Twoje Samopoczucie</h2>
-            <p class="text-muted">Analiza Twoich wspomnień na przestrzeni czasu</p>
+            <h2 class="display-5 fw-bold" style="color: var(--main-color);">@Localizer["StatsHeader"]</h2>
+            <p class="text-muted">@Localizer["StatsSubheader"]</p>
         </div>
     </div>
 
     <div class="row justify-content-center mb-5">
         <div class="col-md-4">
-            <div class="card shadow-sm border-0 glass-effect text-center p-4" style="border-radius: 20px;">
-                <h5 class="text-muted mb-2">Średni Nastrój</h5>
+            <div class="card shadow-sm border-0 glass-effect text-center p-4" style="border-radius: 20px; background-color: var(--card-bg);">
+                <h5 class="text-muted mb-2">@Localizer["AvgMoodLabel"]</h5>
                 <h1 id="overallAverageMood" class="display-2 fw-bold mb-0" style="color: var(--main-color);">–</h1>
                 <div id="moodEmoji" class="fs-1"></div>
             </div>
@@ -22,23 +30,21 @@
 
     <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px;">
-                <h5 class="mb-4"><i class="bi bi-graph-up-arrow me-2"></i>Trend Nastroju</h5>
+            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px; background-color: var(--card-bg);">
+                <h5 class="mb-4"><i class="bi bi-graph-up-arrow me-2"></i>@Localizer["TrendHeader"]</h5>
                 <canvas id="moodChart" height="250"></canvas>
             </div>
         </div>
 
         <div class="col-lg-4">
-            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px;">
-                <h5 class="mb-4"><i class="bi bi-tags-fill me-2"></i>Używane Tagi</h5>
+            <div class="card shadow-sm border-0 p-4 h-100" style="border-radius: 20px; background-color: var(--card-bg);">
+                <h5 class="mb-4"><i class="bi bi-tags-fill me-2"></i>@Localizer["TagsHeader"]</h5>
                 <canvas id="tagsChart"></canvas>
-                <div id="tagUsageList" class="mt-4">
-                </div>
+                <div id="tagUsageList" class="mt-4"></div>
             </div>
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -48,6 +54,10 @@
         $(document).ready(function () {
             loadStatistics();
         });
+
+        const $statsPage = $('#statsPage');
+        const userCulture = $statsPage.data('culture');
+        const chartLabel = $statsPage.data('chart-label');
 
         function getMoodEmoji(score) {
             if (score >= 4.5) return "😄";
@@ -60,23 +70,24 @@
         function loadStatistics() {
             $.get('/api/statistics', function (data) {
 
-                // 1. ŚREDNIA I EMOJI
+                //ŚREDNIA
                 const avg = data.overallAverageMood;
                 $('#overallAverageMood').text(avg.toFixed(2));
                 $('#moodEmoji').text(getMoodEmoji(avg));
 
-                // 2. WYKRES LINIOWY (Trend Nastroju)
+                // WYKRES LINIOWY
                 const monthlyCtx = document.getElementById('moodChart').getContext('2d');
                 new Chart(monthlyCtx, {
                     type: 'line',
                     data: {
                         labels: data.monthlyAverages.map(m => {
-                            return new Date(m.year, m.month - 1).toLocaleString('pl-PL', { month: 'short' }) + ' ' + m.year;
+                     
+                            return new Date(m.year, m.month - 1).toLocaleString(userCulture, { month: 'short', year: 'numeric' });
                         }),
                         datasets: [{
-                            label: 'Średni Nastrój',
+                            label: chartLabel,
                             data: data.monthlyAverages.map(m => m.averageMood),
-                            borderColor: '#28a745', // var(--main-color)
+                            borderColor: '#28a745',
                             backgroundColor: 'rgba(40, 167, 69, 0.1)',
                             fill: true,
                             tension: 0.4,
@@ -87,14 +98,31 @@
                     },
                     options: {
                         responsive: true,
-                        plugins: { legend: { display: false } },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return chartLabel + ": " + context.parsed.y.toFixed(2);
+                                    }
+                                }
+                            }
+                        },
                         scales: {
-                            y: { min: 1, max: 5, ticks: { stepSize: 1 } }
+                            y: {
+                                min: 1,
+                                max: 5,
+                                ticks: { stepSize: 1 },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
                         }
                     }
                 });
 
-                // 3. WYKRES KOŁOWY (Tagi)
+                //WYKRES KOŁOWY
                 const tagsCtx = document.getElementById('tagsChart').getContext('2d');
                 new Chart(tagsCtx, {
                     type: 'doughnut',
@@ -102,16 +130,24 @@
                         labels: data.tagUsage.map(t => t.name),
                         datasets: [{
                             data: data.tagUsage.map(t => t.count),
-                            backgroundColor: [
-                                '#28a745', '#1e7e34', '#a5d6a7', '#4caf50', '#81c784'
-                            ],
+        backgroundColor: [
+                        '#28a745', '#1e7e34', '#a5d6a7', '#4caf50', '#81c784', // Zielenie (Twoja baza)
+                        '#20c997', '#0dcaf0', '#0d6efd', '#6610f2', '#6f42c1', // Morskie, niebieskie i fiolety
+                        '#d63384', '#dc3545', '#fd7e14', '#ffc107', '#adb5bd'  // Róż, czerwień, pomarańcz, żółć, szary
+                    ],
                             borderWidth: 0
                         }]
                     },
                     options: {
                         cutout: '70%',
                         plugins: {
-                            legend: { position: 'bottom', labels: { padding: 20 } }
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#666'
+                                }
+                            }
                         }
                     }
                 });

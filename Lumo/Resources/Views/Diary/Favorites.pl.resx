@@ -117,4 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć to wspomnienie?</value>
+  </data>
+  <data name="EmptyStateText" xml:space="preserve">
+    <value>Oznacz wpisy gwiazdką ⭐, aby zobaczyć je tutaj.</value>
+  </data>
+  <data name="EmptyStateTitle" xml:space="preserve">
+    <value>Brak ulubionych wpisów</value>
+  </data>
+  <data name="ErrorDelete" xml:space="preserve">
+    <value>Błąd podczas usuwania wpisu.</value>
+  </data>
+  <data name="FavoriteBadge" xml:space="preserve">
+    <value>⭐ Ulubione</value>
+  </data>
+  <data name="FavoritesHeader" xml:space="preserve">
+    <value>⭐ Ulubione wpisy</value>
+  </data>
+  <data name="FavoritesSubheader" xml:space="preserve">
+    <value>Twoje najważniejsze wspomnienia</value>
+  </data>
+  <data name="FavoritesTitle" xml:space="preserve">
+    <value>Ulubione wpisy</value>
+  </data>
+  <data name="NotFavoriteBadge" xml:space="preserve">
+    <value>Nieulubione</value>
+  </data>
+  <data name="ViewBtn" xml:space="preserve">
+    <value>Zobacz</value>
+  </data>
 </root>

@@ -123,11 +123,17 @@
   <data name="AddTagBtn" xml:space="preserve">
     <value>Add Tag</value>
   </data>
+  <data name="CancelBtn" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="DeleteBtn" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="EditBtn" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="ErrorCreateTag" xml:space="preserve">
     <value>Error creating tag:</value>
@@ -143,6 +149,9 @@
   </data>
   <data name="ManageTagsTitle" xml:space="preserve">
     <value>Manage Tags</value>
+  </data>
+  <data name="SaveBtn" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="TagNameLabel" xml:space="preserve">
     <value>Tag Name</value>

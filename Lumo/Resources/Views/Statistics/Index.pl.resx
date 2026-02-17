@@ -117,34 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDelete" xml:space="preserve">
-    <value>Are you sure you want to delete this memory?</value>
+  <data name="AvgMoodLabel" xml:space="preserve">
+    <value>Średni Nastrój</value>
   </data>
-  <data name="EmptyStateText" xml:space="preserve">
-    <value>Mark diary entries as ⭐ favorite to see them here.</value>
+  <data name="ChartLabel" xml:space="preserve">
+    <value>Średni Nastrój</value>
   </data>
-  <data name="EmptyStateTitle" xml:space="preserve">
-    <value>No favorite entries yet</value>
+  <data name="StatsHeader" xml:space="preserve">
+    <value>Twoje Samopoczucie</value>
   </data>
-  <data name="ErrorDelete" xml:space="preserve">
-    <value>Error deleting entry.</value>
+  <data name="StatsSubheader" xml:space="preserve">
+    <value>Analiza Twoich wspomnień na przestrzeni czasu</value>
   </data>
-  <data name="FavoriteBadge" xml:space="preserve">
-    <value>⭐ Favorite</value>
+  <data name="StatsTitle" xml:space="preserve">
+    <value>Statystyki Twojego Lumo</value>
   </data>
-  <data name="FavoritesHeader" xml:space="preserve">
-    <value>⭐ Favorite Entries</value>
+  <data name="TagsHeader" xml:space="preserve">
+    <value>Używane Tagi</value>
   </data>
-  <data name="FavoritesSubheader" xml:space="preserve">
-    <value>Your most meaningful memories</value>
-  </data>
-  <data name="FavoritesTitle" xml:space="preserve">
-    <value>Favorite Entries</value>
-  </data>
-  <data name="NotFavoriteBadge" xml:space="preserve">
-    <value>Not Favorite</value>
-  </data>
-  <data name="ViewBtn" xml:space="preserve">
-    <value>View</value>
+  <data name="TrendHeader" xml:space="preserve">
+    <value>Trend Nastroju</value>
   </data>
 </root>

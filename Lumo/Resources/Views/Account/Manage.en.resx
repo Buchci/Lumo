@@ -117,34 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDelete" xml:space="preserve">
-    <value>Are you sure you want to delete this memory?</value>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Account Settings</value>
   </data>
-  <data name="EmptyStateText" xml:space="preserve">
-    <value>Mark diary entries as ⭐ favorite to see them here.</value>
+  <data name="BasicInfo" xml:space="preserve">
+    <value>Basic Information</value>
   </data>
-  <data name="EmptyStateTitle" xml:space="preserve">
-    <value>No favorite entries yet</value>
+  <data name="CurrentPassLabel" xml:space="preserve">
+    <value>Current Password</value>
   </data>
-  <data name="ErrorDelete" xml:space="preserve">
-    <value>Error deleting entry.</value>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email Address</value>
   </data>
-  <data name="FavoriteBadge" xml:space="preserve">
-    <value>⭐ Favorite</value>
+  <data name="NewPassLabel" xml:space="preserve">
+    <value>New Password</value>
   </data>
-  <data name="FavoritesHeader" xml:space="preserve">
-    <value>⭐ Favorite Entries</value>
+  <data name="NicknameLabel" xml:space="preserve">
+    <value>Nickname</value>
   </data>
-  <data name="FavoritesSubheader" xml:space="preserve">
-    <value>Your most meaningful memories</value>
+  <data name="NicknamePlaceholder" xml:space="preserve">
+    <value>Enter your nickname</value>
   </data>
-  <data name="FavoritesTitle" xml:space="preserve">
-    <value>Favorite Entries</value>
+  <data name="ProfileTitle" xml:space="preserve">
+    <value>My Profile</value>
   </data>
-  <data name="NotFavoriteBadge" xml:space="preserve">
-    <value>Not Favorite</value>
+  <data name="SecurityHeader" xml:space="preserve">
+    <value>Security</value>
   </data>
-  <data name="ViewBtn" xml:space="preserve">
-    <value>View</value>
+  <data name="SecurityNote" xml:space="preserve">
+    <value>leave blank to keep current</value>
+  </data>
+  <data name="ConfirmPassLabel" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="SaveBtn" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
 </root>
