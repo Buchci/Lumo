@@ -1,10 +1,8 @@
 ﻿@using Microsoft.Extensions.Options
-@inject IOptions<Lumo.Models.ThemeOptions> Theme
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<Lumo.Models.ApplicationUser> UserManager
 @{
-    // Pobieramy nickname, jeśli użytkownik jest zalogowany
     string userDisplayName = "User";
     if (User.Identity.IsAuthenticated)
     {
@@ -19,6 +17,19 @@
         (function () {
             const savedTheme = localStorage.getItem("theme") || "light";
             document.documentElement.setAttribute("data-bs-theme", savedTheme);
+
+            const observer = new MutationObserver(function (mutations, obs) {
+                const btn = document.getElementById("themeToggle");
+                if (btn) {
+                    btn.innerHTML = savedTheme === "light" ? "🌙" : "☀️";
+                    obs.disconnect(); 
+                }
+            });
+
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true
+            });
         })();
     </script>
     <meta charset="utf-8" />
@@ -159,7 +170,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+                document.addEventListener("DOMContentLoaded", function () {
             const themeToggle = document.getElementById("themeToggle");
             const htmlElement = document.documentElement;
 
@@ -167,24 +178,17 @@
                 if (!themeToggle) return;
                 themeToggle.innerHTML = theme === "light" ? "🌙" : "☀️";
             }
-
-            updateIcon(htmlElement.getAttribute("data-bs-theme"));
-
             themeToggle.addEventListener("click", function () {
-                // Pobieramy obecny stan
                 const currentTheme = htmlElement.getAttribute("data-bs-theme");
                 const newTheme = currentTheme === "light" ? "dark" : "light";
 
-                // Zmieniamy motyw
                 htmlElement.setAttribute("data-bs-theme", newTheme);
                 localStorage.setItem("theme", newTheme);
                 updateIcon(newTheme);
             });
         });
 
-        // KLUCZOWA POPRAWKA TRANSITION:
         window.addEventListener("load", () => {
-            // Czekamy 100ms po pełnym załadowaniu, żeby uniknąć mignięcia startowego
             setTimeout(() => {
                 document.body.classList.remove("no-transition");
             }, 100);

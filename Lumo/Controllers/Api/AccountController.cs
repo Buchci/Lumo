@@ -38,12 +38,12 @@ public class AccountController : Controller
         var user = await _userManager.GetUserAsync(User);
         if (user == null) return NotFound();
 
-        // 1. Aktualizacja Nicku i Emaila
+
         user.Nickname = model.Nickname;
         if (user.Email != model.Email)
         {
             user.Email = model.Email;
-            user.UserName = model.Email; // Zazwyczaj UserName w Identity trzyma się w synchronizacji z Mailem
+            user.UserName = model.Email; 
         }
 
         var updateResult = await _userManager.UpdateAsync(user);
@@ -53,7 +53,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        // 2. Zmiana hasła (tylko jeśli wypełniono pola hasła)
+
         if (!string.IsNullOrEmpty(model.NewPassword))
         {
             if (string.IsNullOrEmpty(model.CurrentPassword))

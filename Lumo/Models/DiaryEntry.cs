@@ -12,7 +12,7 @@ namespace Lumo.Models
         [Required]
         public string Content { get; set; } = string.Empty;
 
-        // Data wpisu (wybierana przez użytkownika)
+ 
         [DataType(DataType.Date)]
         public DateTime EntryDate { get; set; }
 
@@ -22,15 +22,10 @@ namespace Lumo.Models
 
         public bool IsFavorite { get; set; } = false;
 
-        // Ocena nastroju w skali 1–5
         [Range(1, 5)]
         public int MoodRating { get; set; } = 3;
-
-        // Autor
         public string UserId { get; set; } = string.Empty;
         public ApplicationUser User { get; set; } = null!;
-
-        // Relacja wiele-do-wielu z Tagami
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

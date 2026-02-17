@@ -17,7 +17,6 @@ namespace Lumo.Services
         public StatisticsService(ApplicationDbContext context, IStringLocalizerFactory factory)
         {
             _context = context;
-            // Ustawiamy lokalizator na ten sam plik, z którego korzysta Mapper
             var assemblyName = typeof(Program).Assembly.GetName().Name!;
             _localizer = factory.Create("Tags", assemblyName);
         }
@@ -41,7 +40,6 @@ namespace Lumo.Services
                 .OrderBy(x => x.Year).ThenBy(x => x.Month)
                 .ToListAsync();
 
-            // 1. Pobieramy surowe dane z bazy (bez tłumaczenia jeszcze)
             var rawTagUsage = await _context.Tags
                 .Where(t => t.IsGlobal || t.UserId == userId)
                 .Select(t => new
@@ -55,7 +53,6 @@ namespace Lumo.Services
                 .OrderByDescending(x => x.Count)
                 .ToListAsync();
 
-            // 2. Tłumaczymy nazwy w pamięci (już w C#, nie w SQL)
             var translatedTagUsage = rawTagUsage.Select(t => new TagUsageDto
             {
                 Name = t.CustomName

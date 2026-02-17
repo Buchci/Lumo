@@ -17,7 +17,6 @@ namespace Lumo.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                // Zak³adam, ¿e widok kalendarza to Index w DiaryController
                 return RedirectToAction("Index", "Diary");
             }
             return View();

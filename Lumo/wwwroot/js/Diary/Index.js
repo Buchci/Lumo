@@ -115,8 +115,8 @@ $(document).ready(function () {
             success: function () {
                 $('#createEntryForm')[0].reset();
                 $('#createEntryCard').slideUp();
-                // Powrót do pierwotnego tekstu przycisku przy użyciu data-attribute
-                $('#toggleEntryForm').text($('#toggleEntryForm').data('text-add'));
+                const btn = $('#toggleEntryForm');
+                btn.text(btn.data('text-hide'));
                 loadEntries();
             }
         });

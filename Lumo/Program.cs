@@ -25,13 +25,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews()
-    .AddViewLocalization()           // <-- add view localization
-    .AddDataAnnotationsLocalization(); // <-- add model validation localization
+    .AddViewLocalization()           
+    .AddDataAnnotationsLocalization();
 
-// Configure theme options
-builder.Services.Configure<ThemeOptions>(
-    builder.Configuration.GetSection("Theme")
-);
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Configure localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -74,15 +70,18 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
     try
     {
-        // Wywołujemy naszą metodę
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
+
         await Lumo.Data.DbInitializer.SeedData(services);
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Wystąpił błąd podczas seedowania bazy danych.");
+        logger.LogError(ex, "Wystąpił błąd podczas migracji/seedowania bazy danych.");
     }
 }
 app.Run();

@@ -2,6 +2,6 @@
 {
     public class UpdateTagDto
     {
-        public string? CustomName { get; set; } // użytkownik może zmienić nazwę tagu
+        public string? CustomName { get; set; } 
     }
 }
