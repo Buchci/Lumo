@@ -5,6 +5,8 @@ VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumo", "Lumo\Lumo.csproj", "{8DB8D259-236F-4C2A-A021-1ECA6B9B0370}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LumoDiary.Tests", "LumoDiary.Tests\LumoDiary.Tests.csproj", "{AEE8F07C-D889-4BF0-8A04-B1EE8E99B5CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8DB8D259-236F-4C2A-A021-1ECA6B9B0370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DB8D259-236F-4C2A-A021-1ECA6B9B0370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DB8D259-236F-4C2A-A021-1ECA6B9B0370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE8F07C-D889-4BF0-8A04-B1EE8E99B5CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE8F07C-D889-4BF0-8A04-B1EE8E99B5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE8F07C-D889-4BF0-8A04-B1EE8E99B5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE8F07C-D889-4BF0-8A04-B1EE8E99B5CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

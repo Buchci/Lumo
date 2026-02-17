@@ -2,8 +2,17 @@
 using Lumo.DTOs.DiaryEntry;
 using Lumo.Models;
 using Microsoft.EntityFrameworkCore;
-
-public class DiaryService
+public interface IDiaryService
+{
+    Task<List<DiaryEntry>> GetUserEntriesAsync(string userId);
+    Task<DiaryEntry> CreateEntryAsync(string userId, CreateDiaryEntryDto dto);
+    Task<DiaryEntry?> UpdateEntryAsync(int id, string userId, UpdateDiaryEntryDto dto);
+    Task<bool> HasEntryForDateAsync(string userId, DateTime date);
+    Task<bool> DeleteEntryAsync(int id, string userId);
+    Task<DiaryEntry?> GetEntryByIdAsync(string userId, int id);
+    Task<List<Tag>> GetAllTagsAsync(string userId);
+}
+public class DiaryService : IDiaryService
 {
     private readonly ApplicationDbContext _db;
 

@@ -6,7 +6,11 @@ using Microsoft.Extensions.Localization;
 
 namespace Lumo.Services
 {
-    public class StatisticsService
+    public interface IStatisticsService
+    {
+        Task<StatisticsOverviewDto> GetUserStatisticsAsync(string userId);
+    }
+    public class StatisticsService : IStatisticsService
     {
         private readonly ApplicationDbContext _context;
         private readonly IStringLocalizer _localizer;

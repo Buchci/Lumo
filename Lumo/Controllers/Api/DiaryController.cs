@@ -12,11 +12,11 @@ namespace Lumo.Controllers.Api
     [Authorize]
     public class DiaryController : ControllerBase
     {
-        private readonly DiaryService _service;
+        private readonly IDiaryService _service;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly DiaryMapper _mapper; // NOWOŚĆ
 
-        public DiaryController(DiaryService service, UserManager<ApplicationUser> userManager, DiaryMapper mapper)
+        public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager, DiaryMapper mapper)
         {
             _service = service;
             _userManager = userManager;

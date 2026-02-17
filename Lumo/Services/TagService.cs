@@ -4,7 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lumo.Services
 {
-    public class TagService
+    public interface ITagService
+    {
+        Task<List<Tag>> GetUserTagsAsync(string userId);
+        Task<Tag> CreateTagAsync(string userId, string? resourceKey, string? customName, bool isGlobal = false);
+        Task<Tag?> UpdateTagAsync(int id, string userId, string? customName);
+        Task<bool> DeleteTagAsync(int id, string userId);
+    }
+    public class TagService : ITagService
     {
         private readonly ApplicationDbContext _db;
 

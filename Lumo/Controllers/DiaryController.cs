@@ -6,10 +6,10 @@ namespace Lumo.Controllers
 {
     public class DiaryController : Controller
     {
-        private readonly DiaryService _service;
+        private readonly IDiaryService _service;
         private readonly UserManager<ApplicationUser> _userManager;
         // GET: /Diary
-        public DiaryController(DiaryService service, UserManager<ApplicationUser> userManager)
+        public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
             _userManager = userManager;

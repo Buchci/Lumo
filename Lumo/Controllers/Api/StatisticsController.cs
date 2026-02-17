@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class StatisticsController : ControllerBase
 {
-    private readonly StatisticsService _service;
+    private readonly IStatisticsService _service;
     private readonly UserManager<ApplicationUser> _userManager;
 
     public StatisticsController(
-        StatisticsService service,
+        IStatisticsService service,
         UserManager<ApplicationUser> userManager)
     {
         _service = service;

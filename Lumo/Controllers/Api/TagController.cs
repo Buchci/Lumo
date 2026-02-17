@@ -11,12 +11,12 @@ namespace Lumo.Controllers.Api
     [Route("api/[controller]")]
     public class TagController : ControllerBase
     {
-        private readonly TagService _service;
+        private readonly ITagService _service;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IStringLocalizer _localizer;
 
         public TagController(
-            TagService service,
+            ITagService service,
             UserManager<ApplicationUser> userManager,
             IStringLocalizerFactory localizerFactory)
         {

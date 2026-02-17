@@ -17,10 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddScoped<StatisticsService>();
-
-builder.Services.AddScoped<DiaryService>();
-builder.Services.AddScoped<TagService>();
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
+builder.Services.AddScoped<IDiaryService, DiaryService>();
+builder.Services.AddScoped<ITagService, TagService>(); 
 builder.Services.AddScoped<Lumo.Helpers.DiaryMapper>();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -77,13 +76,13 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // Wywo�ujemy nasz� metod�
+        // Wywołujemy naszą metodę
         await Lumo.Data.DbInitializer.SeedData(services);
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Wyst�pi� b��d podczas seedowania bazy danych.");
+        logger.LogError(ex, "Wystąpił błąd podczas seedowania bazy danych.");
     }
 }
 app.Run();
