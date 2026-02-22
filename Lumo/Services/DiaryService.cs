@@ -20,16 +20,6 @@ public class DiaryService : IDiaryService
     {
         _db = db;
     }
-
-    public async Task<List<DiaryEntry>> GetUserEntriesAsync(string userId)
-    {
-        return await _db.DiaryEntries
-            .Include(d => d.Tags)
-            .Where(d => d.UserId == userId)
-            .OrderByDescending(d => d.EntryDate)
-            .ToListAsync();
-    }
-
     public async Task<DiaryEntry> CreateEntryAsync(string userId, CreateDiaryEntryDto dto)
     {
         var entry = new DiaryEntry
@@ -46,6 +36,14 @@ public class DiaryService : IDiaryService
         _db.DiaryEntries.Add(entry);
         await _db.SaveChangesAsync();
         return entry;
+    }
+    public async Task<List<DiaryEntry>> GetUserEntriesAsync(string userId)
+    {
+        return await _db.DiaryEntries
+            .Include(d => d.Tags)
+            .Where(d => d.UserId == userId)
+            .OrderByDescending(d => d.EntryDate)
+            .ToListAsync();
     }
 
     public async Task<DiaryEntry?> UpdateEntryAsync(int id, string userId, UpdateDiaryEntryDto dto)
