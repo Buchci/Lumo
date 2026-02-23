@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Lumo.Helpers;
+using Lumo.Services;
 namespace Lumo.Controllers.Api
 {
     [ApiController]
@@ -23,6 +24,27 @@ namespace Lumo.Controllers.Api
             _mapper = mapper; 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateDiaryEntryDto dto)
+        {
+            try
+            {
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+                var entryDate = dto.EntryDate.Date;
+                if (await _service.HasEntryForDateAsync(userId, entryDate))
+                    return BadRequest(new { message = "Masz już wpis w pamiętniku dla tej daty." });
+
+                var entry = await _service.CreateEntryAsync(userId, dto);
+
+                return Ok(_mapper.MapToReadDto(entry));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -51,28 +73,6 @@ namespace Lumo.Controllers.Api
             if (updated == null) return NotFound();
 
             return Ok(_mapper.MapToReadDto(updated));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateDiaryEntryDto dto)
-        {
-            try
-            {
-                var userId = _userManager.GetUserId(User);
-                if (string.IsNullOrEmpty(userId)) return Unauthorized();
-
-                var entryDate = dto.EntryDate.Date;
-                if (await _service.HasEntryForDateAsync(userId, entryDate))
-                    return BadRequest(new { message = "Masz już wpis w pamiętniku dla tej daty." });
-
-                var entry = await _service.CreateEntryAsync(userId, dto);
-
-                return Ok(_mapper.MapToReadDto(entry));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
         }
 
         [HttpGet("favorites")]

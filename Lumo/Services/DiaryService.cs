@@ -2,6 +2,8 @@
 using Lumo.DTOs.DiaryEntry;
 using Lumo.Models;
 using Microsoft.EntityFrameworkCore;
+namespace Lumo.Services;
+
 public interface IDiaryService
 {
     Task<List<DiaryEntry>> GetUserEntriesAsync(string userId);

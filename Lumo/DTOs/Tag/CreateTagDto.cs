@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-public class CreateTagDto
+namespace Lumo.DTOs.Tag
 {
-    [MaxLength(20)]
-    public string? ResourceKey { get; set; }
+    public class CreateTagDto
+    {
+        [MaxLength(20)]
+        public string? ResourceKey { get; set; }
 
-    [MaxLength(20)]
-    public string? CustomName { get; set; }
+        [MaxLength(20)]
+        [Required]
+        public string? CustomName { get; set; }
 
-    public bool IsGlobal { get; set; } = false;
+        public bool IsGlobal { get; set; } = false;
+    }
 }
