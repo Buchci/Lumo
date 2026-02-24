@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Lumo.Helpers;
+using Lumo.Services;
 namespace Lumo.Controllers.Api
 {
     [ApiController]
@@ -14,48 +15,13 @@ namespace Lumo.Controllers.Api
     {
         private readonly IDiaryService _service;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly DiaryMapper _mapper; // NOWOŚĆ
+        private readonly DiaryMapper _mapper; 
 
         public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager, DiaryMapper mapper)
         {
             _service = service;
             _userManager = userManager;
-            _mapper = mapper; // NOWOŚĆ
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var userId = _userManager.GetUserId(User);
-            var entries = await _service.GetUserEntriesAsync(userId);
-
-            // ZMIANA: Jedna linijka zamiast całego bloku logiki
-            var result = entries.Select(e => _mapper.MapToReadDto(e)).ToList();
-            return Ok(result);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var userId = _userManager.GetUserId(User);
-            var entry = await _service.GetEntryByIdAsync(userId, id);
-            if (entry == null) return NotFound();
-
-            // ZMIANA: Tutaj też używamy mappera, żeby tagi w widoku pojedynczym się tłumaczyły
-            return Ok(_mapper.MapToReadDto(entry));
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateDiaryEntryDto dto)
-        {
-            var userId = _userManager.GetUserId(User);
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
-
-            var updated = await _service.UpdateEntryAsync(id, userId, dto);
-            if (updated == null) return NotFound();
-
-            // ZMIANA: Używamy mappera
-            return Ok(_mapper.MapToReadDto(updated));
+            _mapper = mapper; 
         }
 
         [HttpPost]
@@ -72,13 +38,41 @@ namespace Lumo.Controllers.Api
 
                 var entry = await _service.CreateEntryAsync(userId, dto);
 
-                // ZMIANA: Używamy mappera
                 return Ok(_mapper.MapToReadDto(entry));
             }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var userId = _userManager.GetUserId(User);
+            var entries = await _service.GetUserEntriesAsync(userId);
+            var result = entries.Select(e => _mapper.MapToReadDto(e)).ToList();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var entry = await _service.GetEntryByIdAsync(userId, id);
+            if (entry == null) return NotFound();
+            return Ok(_mapper.MapToReadDto(entry));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateDiaryEntryDto dto)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var updated = await _service.UpdateEntryAsync(id, userId, dto);
+            if (updated == null) return NotFound();
+
+            return Ok(_mapper.MapToReadDto(updated));
         }
 
         [HttpGet("favorites")]
@@ -89,7 +83,6 @@ namespace Lumo.Controllers.Api
 
             var entries = await _service.GetUserEntriesAsync(userId);
 
-            // ZMIANA: Spójna logika dla ulubionych
             var favorites = entries
                 .Where(e => e.IsFavorite)
                 .OrderByDescending(e => e.EntryDate)

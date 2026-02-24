@@ -18,7 +18,7 @@ namespace Lumo.Data
             // Upewnij się, że baza jest utworzona
             context.Database.EnsureCreated();
 
-            // 1. Tworzenie Użytkownika (jeśli nie istnieje)
+            // Tworzenie Użytkownika (jeśli nie istnieje)
             var userEmail = "user@example.com";
             var user = await userManager.FindByEmailAsync(userEmail);
 
@@ -39,17 +39,16 @@ namespace Lumo.Data
                 }
             }
 
-            // Sprawdzamy, czy użytkownik ma już jakieś wpisy. Jeśli tak - przerywamy, żeby nie dublować.
+            // Sprawdzamy, czy użytkownik ma już jakieś wpisy.
             if (context.DiaryEntries.Any(e => e.UserId == user.Id))
             {
                 return;
             }
 
-            // 2. Pobranie istniejących tagów globalnych i dodanie nowych customowych
-            // Pobieramy globalne z bazy (te z OnModelCreating)
+            // Pobieramy globalne tagi z bazy
             var allTags = context.Tags.Where(t => t.IsGlobal).ToList();
 
-            // Tworzymy customowe tagi dla usera
+            // customowe tagi usera
             var customTags = new List<Tag>
             {
                 new Tag { CustomName = "Natura 🌿", UserId = user.Id, IsGlobal = false },
@@ -61,13 +60,12 @@ namespace Lumo.Data
                 new Tag { CustomName = "Książka 📖", UserId = user.Id, IsGlobal = false }
             };
 
-            // Dodajemy customowe do bazy i do naszej lokalnej listy
             context.Tags.AddRange(customTags);
-            await context.SaveChangesAsync(); // Zapisz, żeby dostały ID
+            await context.SaveChangesAsync(); 
 
             allTags.AddRange(customTags);
 
-            // 3. Generowanie wpisów (6 miesięcy wstecz)
+            // Generowanie wpisów 
             var entries = new List<DiaryEntry>();
             var random = new Random();
             var startDate = DateTime.Today.AddMonths(-6);
@@ -76,25 +74,23 @@ namespace Lumo.Data
             // Pętla dzień po dniu
             for (var date = startDate; date <= today; date = date.AddDays(1))
             {
-                // 15% szans, że użytkownik nic nie napisał tego dnia (dla realizmu)
                 if (random.NextDouble() > 0.85) continue;
 
-                // Logika nastroju: Weekendy (Sobota/Niedziela) mają bonus do nastroju
+                // Weekendy mają bonus do nastroju
                 int baseMood = (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) ? 4 : 3;
-                // Losowe wahanie nastroju (-2 do +2)
                 int moodRating = Math.Clamp(baseMood + random.Next(-2, 3), 1, 5);
 
-                // Losowanie tagów (od 1 do 3 na wpis)
+                // Losowanie tagów
                 var entryTags = allTags.OrderBy(x => random.Next()).Take(random.Next(1, 4)).ToList();
 
                 var entry = new DiaryEntry
                 {
                     Title = GetRandomTitle(moodRating, random),
                     Content = GetRandomContent(moodRating, random),
-                    EntryDate = date, // Ważne: data bez godziny dla DataType.Date
-                    CreatedAt = date.AddHours(random.Next(18, 23)), // Utworzono wieczorem
+                    EntryDate = date, 
+                    CreatedAt = date.AddHours(random.Next(18, 23)), 
                     MoodRating = moodRating,
-                    IsFavorite = (moodRating == 5 && random.NextDouble() > 0.7), // Tylko super dni mogą być ulubione (czasami)
+                    IsFavorite = (moodRating == 5 && random.NextDouble() > 0.7),
                     UserId = user.Id,
                     Tags = entryTags
                 };

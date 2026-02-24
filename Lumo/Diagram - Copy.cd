@@ -1,56 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Lumo.Controllers.DiaryController">
-    <Position X="19" Y="3.25" Width="1.5" />
+    <Position X="11.75" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAQAAAAAAAAAAAAAAACAAGAAAAAAAA=</HashCode>
       <FileName>Controllers\DiaryController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Lumo.Controllers.TagController">
-    <Position X="19" Y="1.5" Width="1.5" />
+    <Position X="11.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Controllers\TagController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.DiaryEntry.CreateDiaryEntryDto">
-    <Position X="8.75" Y="5.75" Width="1.75" />
+  <Class Name="Lumo.DTOs.DiaryEntry.CreateDiaryEntryDto" Collapsed="true">
+    <Position X="8.25" Y="6.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAgAAAEAAAAAQAACAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>DTOs\DiaryEntry\CreateDiaryEntryDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.DiaryEntry.DiaryEntryReadDto">
-    <Position X="8.75" Y="8" Width="1.75" />
+  <Class Name="Lumo.DTOs.DiaryEntry.DiaryEntryReadDto" Collapsed="true">
+    <Position X="8.25" Y="7.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAgAAAgAAAEAAAAAQAACAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DTOs\DiaryEntry\DiaryEntryReadDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.DiaryEntry.UpdateDiaryEntryDto">
-    <Position X="7" Y="10.5" Width="1.75" />
+  <Class Name="Lumo.DTOs.DiaryEntry.UpdateDiaryEntryDto" Collapsed="true">
+    <Position X="8.25" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAgAAAEAAAAAQAACAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>DTOs\DiaryEntry\UpdateDiaryEntryDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.Tag.CreateTagDto">
-    <Position X="4" Y="10" Width="1.75" />
+  <Class Name="Lumo.DTOs.Tag.CreateTagDto" Collapsed="true">
+    <Position X="2.5" Y="8.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DTOs\Tag\CreateTagDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.Tag.TagReadDto">
-    <Position X="2" Y="8.25" Width="1.75" />
+  <Class Name="Lumo.DTOs.Tag.TagReadDto" Collapsed="true">
+    <Position X="2.5" Y="7.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DTOs\Tag\TagReadDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lumo.DTOs.Tag.UpdateTagDto">
-    <Position X="2" Y="6.25" Width="1.75" />
+  <Class Name="Lumo.DTOs.Tag.UpdateTagDto" Collapsed="true">
+    <Position X="2.5" Y="6.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DTOs\Tag\UpdateTagDto.cs</FileName>
@@ -78,21 +78,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Lumo.Controllers.Api.TagController">
-    <Position X="5.25" Y="1.25" Width="1.5" />
+    <Position X="4.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQABAAAAAAAAABQAAAAAAAAAAEAAEAAAAAAEAAAAAA=</HashCode>
       <FileName>Controllers\Api\TagController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Lumo.Controllers.Api.DiaryController">
-    <Position X="3.5" Y="1.25" Width="1.5" />
+    <Position X="2.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQABAAgAAAAAABQAAABAAAAAAEAAEAAAAAAAAAAAIA=</HashCode>
       <FileName>Controllers\Api\DiaryController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DiaryService">
-    <Position X="7" Y="1.25" Width="1.5" />
+    <Position X="6.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAACIAEAI=</HashCode>
       <FileName>Services\DiaryService.cs</FileName>
@@ -100,57 +100,15 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Lumo.Services.TagService">
-    <Position X="8.75" Y="1.25" Width="1.5" />
+    <Position X="8.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAAhAAA=</HashCode>
       <FileName>Services\TagService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="AccountController">
-    <Position X="13" Y="6.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Controllers\Api\AccountController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="StatisticsController">
-    <Position X="13" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Controllers\Api\StatisticsController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Lumo.Controllers.StatisticsController">
-    <Position X="15" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
-      <FileName>Controllers\StatisticsController.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Lumo.DTOs.Statistics.MonthlyMoodDto">
-    <Position X="20.5" Y="9.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>DTOs\Statistics\MonthlyMoodDto.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Lumo.DTOs.Statistics.StatisticsOverviewDto">
-    <Position X="20.5" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAACAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>DTOs\Statistics\StatisticsOverviewDto.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Lumo.DTOs.Statistics.TagUsageDto">
-    <Position X="20.5" Y="8" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAE=</HashCode>
-      <FileName>DTOs\Statistics\TagUsageDto.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Lumo.Services.StatisticsService">
-    <Position X="10.5" Y="1.25" Width="1.5" />
+    <Position X="10.25" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
       <FileName>Services\StatisticsService.cs</FileName>

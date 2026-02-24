@@ -10,7 +10,6 @@ namespace Lumo.Helpers
 
         public DiaryMapper(IStringLocalizerFactory factory)
         {
-            // Dokładnie ta sama logika zasobów co u Ciebie
             var assemblyName = typeof(Program).Assembly.GetName().Name!;
             _localizer = factory.Create("Tags", assemblyName);
         }
@@ -25,7 +24,6 @@ namespace Lumo.Helpers
                 EntryDate = entry.EntryDate,
                 MoodRating = entry.MoodRating,
                 IsFavorite = entry.IsFavorite,
-                // TWOJA LOGIKA TAGÓW:
                 Tags = entry.Tags.Select(t =>
                 {
                     return t.CustomName

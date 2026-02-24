@@ -136,7 +136,7 @@
     <value>Edit</value>
   </data>
   <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Error creating tag:</value>
+    <value>Error creating tag: Maximum length is 20</value>
   </data>
   <data name="ErrorDeleteTag" xml:space="preserve">
     <value>Failed to delete tag.</value>

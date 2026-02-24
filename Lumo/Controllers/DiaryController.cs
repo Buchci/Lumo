@@ -1,14 +1,15 @@
 ﻿using Lumo.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Lumo.Services;
 namespace Lumo.Controllers
 {
+    [Authorize]
     public class DiaryController : Controller
     {
         private readonly IDiaryService _service;
         private readonly UserManager<ApplicationUser> _userManager;
-        // GET: /Diary
         public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
@@ -16,7 +17,6 @@ namespace Lumo.Controllers
         }
         public IActionResult Index()
         {
-            // Na razie pusta lista
             var model = new List<Lumo.Models.DiaryEntry>();
             return View(model);
         }
@@ -32,7 +32,7 @@ namespace Lumo.Controllers
 
             if (entry == null) return NotFound();
             ViewBag.AllTags = await _service.GetAllTagsAsync(userId);
-            // Przekazujemy wpis do widoku, żeby wypełnić formularz danymi
+            // Przekazujemy wpis do widoku
             return View(entry);
         }
     }

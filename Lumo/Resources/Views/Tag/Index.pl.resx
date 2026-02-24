@@ -136,7 +136,7 @@
     <value>Edytuj</value>
   </data>
   <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Błąd podczas tworzenia tagu:</value>
+    <value>Błąd podczas tworzenia tagu: Maksymalna ilość znaków wynosi 20</value>
   </data>
   <data name="ErrorDeleteTag" xml:space="preserve">
     <value>Nie udało się usunąć tagu.</value>
