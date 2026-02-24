@@ -21,7 +21,7 @@ namespace Lumo.Services
             var port = int.Parse(emailSettings["Port"] ?? "587");
             var username = emailSettings["Username"];
             var password = emailSettings["Password"];
-            var from = emailSettings["From"]; // <--- To była brakująca linijka!
+            var from = emailSettings["From"];
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Lumo Team", from));
