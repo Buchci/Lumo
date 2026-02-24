@@ -23,7 +23,7 @@ namespace Lumo.Controllers.Api
             _service = service;
             _userManager = userManager;
 
-            // "Tags" to nazwa  plików: Tags_EN.resx i Tags_PL.resx
+            // "Tags" to nazwa plików: Tags_EN.resx i Tags_PL.resx
             var assemblyName = typeof(Program).Assembly.GetName().Name!;
             _localizer = localizerFactory.Create("Tags", assemblyName);
         }
@@ -48,16 +48,25 @@ namespace Lumo.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTagDto dto)
         {
-            var userId = _userManager.GetUserId(User);
-            var tag = await _service.CreateTagAsync(userId, dto.ResourceKey, dto.CustomName, dto.IsGlobal);
-            return Ok(tag);
+            try
+            {
+                var userId = _userManager.GetUserId(User);
+                var tag = await _service.CreateTagAsync(userId, dto);
+                return Ok(tag);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTagDto dto)
         {
             var userId = _userManager.GetUserId(User);
-            var updatedTag = await _service.UpdateTagAsync(id, userId, dto.CustomName);
+            // Przekazujemy całe DTO do serwisu
+            var updatedTag = await _service.UpdateTagAsync(id, userId, dto);
+
             if (updatedTag == null) return NotFound();
             return Ok(updatedTag);
         }
@@ -67,6 +76,7 @@ namespace Lumo.Controllers.Api
         {
             var userId = _userManager.GetUserId(User);
             var deleted = await _service.DeleteTagAsync(id, userId);
+
             if (!deleted) return NotFound();
             return NoContent();
         }

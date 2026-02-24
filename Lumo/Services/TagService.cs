@@ -1,4 +1,5 @@
 ﻿using Lumo.Data;
+using Lumo.DTOs.Tag;
 using Lumo.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,11 @@ namespace Lumo.Services
     public interface ITagService
     {
         Task<List<Tag>> GetUserTagsAsync(string userId);
-        Task<Tag> CreateTagAsync(string userId, string? resourceKey, string? customName, bool isGlobal = false);
-        Task<Tag?> UpdateTagAsync(int id, string userId, string? customName);
+        Task<Tag> CreateTagAsync(string userId, CreateTagDto dto);
+        Task<Tag?> UpdateTagAsync(int id, string userId, UpdateTagDto dto);
         Task<bool> DeleteTagAsync(int id, string userId);
     }
+
     public class TagService : ITagService
     {
         private readonly ApplicationDbContext _db;
@@ -27,30 +29,33 @@ namespace Lumo.Services
                 .ToListAsync();
         }
 
-        public async Task<Tag> CreateTagAsync(string userId, string? resourceKey, string? customName, bool isGlobal = false)
+        public async Task<Tag> CreateTagAsync(string userId, CreateTagDto dto)
         {
-            var tag = new Tag
-            {
-                ResourceKey = resourceKey,
-                CustomName = customName,
-                IsGlobal = false,
-                UserId = isGlobal ? null : userId
-            };
-            if (isGlobal)
+            // Najpierw sprawdzamy warunek błędu (tzw. "fail-fast")
+            if (dto.IsGlobal)
                 throw new InvalidOperationException("Users cannot create global tags.");
 
+            var tag = new Tag
+            {
+                ResourceKey = dto.ResourceKey,
+                CustomName = dto.CustomName,
+                IsGlobal = false,
+                UserId = userId
+            };
 
             _db.Tags.Add(tag);
             await _db.SaveChangesAsync();
             return tag;
         }
-        public async Task<Tag?> UpdateTagAsync(int id, string userId, string? customName)
+
+        public async Task<Tag?> UpdateTagAsync(int id, string userId, UpdateTagDto dto)
         {
             var tag = await _db.Tags.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
             if (tag == null) return null;
 
-            if (!string.IsNullOrEmpty(customName))
-                tag.CustomName = customName;
+            // Używamy pola z przekazanego DTO
+            if (!string.IsNullOrEmpty(dto.CustomName))
+                tag.CustomName = dto.CustomName;
 
             await _db.SaveChangesAsync();
             return tag;
@@ -74,5 +79,4 @@ namespace Lumo.Services
             return true;
         }
     }
-
 }
