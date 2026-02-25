@@ -117,49 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddNewTag" xml:space="preserve">
-    <value>Dodaj nowy tag</value>
+  <data name="ConfirmPasswordLabel" xml:space="preserve">
+    <value>Confirm Password</value>
   </data>
-  <data name="AddTagBtn" xml:space="preserve">
-    <value>Dodaj tag</value>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Email Address</value>
   </data>
-  <data name="CancelBtn" xml:space="preserve">
-    <value>Anuluj</value>
+  <data name="HaveAccount" xml:space="preserve">
+    <value>Already have an account?</value>
   </data>
-  <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć ten tag?</value>
+  <data name="LoginLink" xml:space="preserve">
+    <value>Log in</value>
   </data>
-  <data name="DeleteBtn" xml:space="preserve">
-    <value>Usuń</value>
+  <data name="NicknameLabel" xml:space="preserve">
+    <value>Nickname</value>
   </data>
-  <data name="EditBtn" xml:space="preserve">
-    <value>Edytuj</value>
+  <data name="NicknamePlaceholder" xml:space="preserve">
+    <value>Your Nickname</value>
   </data>
-  <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Błąd podczas tworzenia tagu: Maksymalna ilość znaków wynosi 20</value>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="ErrorDeleteTag" xml:space="preserve">
-    <value>Nie udało się usunąć tagu.</value>
+  <data name="RegisterBtn" xml:space="preserve">
+    <value>Sign up</value>
   </data>
-  <data name="ErrorUpdateTag" xml:space="preserve">
-    <value>Błąd podczas edycji tagu: Maksymalna ilość znaków wynosi 20</value>
+  <data name="Subtitle" xml:space="preserve">
+    <value>Start capturing your moments today.</value>
   </data>
-  <data name="ExistingTags" xml:space="preserve">
-    <value>Istniejące tagi</value>
-  </data>
-  <data name="GlobalBadge" xml:space="preserve">
-    <value>Globalny</value>
-  </data>
-  <data name="ManageTagsTitle" xml:space="preserve">
-    <value>Zarządzaj Tagami</value>
-  </data>
-  <data name="SaveBtn" xml:space="preserve">
-    <value>Zapisz</value>
-  </data>
-  <data name="TagNameLabel" xml:space="preserve">
-    <value>Nazwa tagu</value>
-  </data>
-  <data name="TagNamePlaceholder" xml:space="preserve">
-    <value>Wpisz nazwę tagu...</value>
+  <data name="Title" xml:space="preserve">
+    <value>Join Lumo</value>
   </data>
 </root>

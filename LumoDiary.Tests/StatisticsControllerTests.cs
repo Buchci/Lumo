@@ -11,7 +11,7 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-
+using Lumo.Controllers.Api;
 namespace LumoDiary.Tests
 {
     public class StatisticsControllerTests

@@ -9,7 +9,6 @@
         <div class="col-md-6 text-center">
             <div class="card shadow border-0 p-5" style="border-radius: 20px; background-color: var(--card-bg);">
                 <div class="mb-4">
-                    @* Ikona wysyłania/listu *@
                     <i class="bi bi-envelope-check" style="font-size: 4rem; color: var(--main-color);"></i>
                 </div>
 
@@ -17,7 +16,6 @@
 
                 @if (Model.DisplayConfirmAccountLink)
                 {
-                    @* Ten blok zostanie wyświetlony tylko jeśli coś sknocimy w konfiguracji EmailSender *@
                     <div class="alert alert-warning">
                         <p>Aplikacja nie ma skonfigurowanego serwera poczty. Normalnie link byłby wysłany mailem:</p>
                         <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-warning">Kliknij tutaj, aby potwierdzić</a>

@@ -117,49 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddNewTag" xml:space="preserve">
-    <value>Dodaj nowy tag</value>
+  <data name="Title" xml:space="preserve">
+    <value>Hello again</value>
   </data>
-  <data name="AddTagBtn" xml:space="preserve">
-    <value>Dodaj tag</value>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>E-mail</value>
   </data>
-  <data name="CancelBtn" xml:space="preserve">
-    <value>Anuluj</value>
+  <data name="TagsLabel" xml:space="preserve">
+    <value>Tags</value>
   </data>
-  <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć ten tag?</value>
+  <data name="Subtitle" xml:space="preserve">
+    <value>Log in, to continue your journey</value>
   </data>
-  <data name="DeleteBtn" xml:space="preserve">
-    <value>Usuń</value>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="EditBtn" xml:space="preserve">
-    <value>Edytuj</value>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me</value>
   </data>
-  <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Błąd podczas tworzenia tagu: Maksymalna ilość znaków wynosi 20</value>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
   </data>
-  <data name="ErrorDeleteTag" xml:space="preserve">
-    <value>Nie udało się usunąć tagu.</value>
+  <data name="LoginBtn" xml:space="preserve">
+    <value>Log in</value>
   </data>
-  <data name="ErrorUpdateTag" xml:space="preserve">
-    <value>Błąd podczas edycji tagu: Maksymalna ilość znaków wynosi 20</value>
+  <data name="NoAccount" xml:space="preserve">
+    <value>Don't have an account?</value>
   </data>
-  <data name="ExistingTags" xml:space="preserve">
-    <value>Istniejące tagi</value>
+  <data name="RegisterLink" xml:space="preserve">
+    <value>Register here</value>
   </data>
-  <data name="GlobalBadge" xml:space="preserve">
-    <value>Globalny</value>
-  </data>
-  <data name="ManageTagsTitle" xml:space="preserve">
-    <value>Zarządzaj Tagami</value>
-  </data>
-  <data name="SaveBtn" xml:space="preserve">
-    <value>Zapisz</value>
-  </data>
-  <data name="TagNameLabel" xml:space="preserve">
-    <value>Nazwa tagu</value>
-  </data>
-  <data name="TagNamePlaceholder" xml:space="preserve">
-    <value>Wpisz nazwę tagu...</value>
+  <data name="ResendConfirmation" xml:space="preserve">
+    <value>Send email confirmation again</value>
   </data>
 </root>

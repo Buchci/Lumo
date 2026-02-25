@@ -1,7 +1,9 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Email Potwierdzony";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
@@ -9,22 +11,22 @@
         <div class="col-md-6 text-center">
             <div class="card shadow border-0 p-5" style="border-radius: 20px; background-color: var(--card-bg);">
 
-                <h1 class="fw-bold mb-3" style="color: var(--main-color);">Konto aktywowane! 🌿</h1>
+                <h1 class="fw-bold mb-3" style="color: var(--main-color);">@Localizer["Header"]</h1>
 
                 <p class="lead mb-4" style="color: var(--text-color);">
-                    Twój adres e-mail został pomyślnie potwierdzony. Witaj w społeczności Lumo!
+                    @Localizer["Description"]
                 </p>
 
                 <div class="alert alert-info border-0 shadow-sm" style="background-color: rgba(40, 167, 69, 0.1); color: var(--text-color);">
                     <p class="mb-0">
-                        Zostaniesz automatycznie przekierowany do strony logowania za <br />
-                        <span id="countdown" class="fw-bold" style="font-size: 1.5rem; color: var(--main-color);">5</span> sekund...
+                        @Localizer["RedirectInfo"] <br />
+                        <span id="countdown" class="fw-bold" style="font-size: 1.5rem; color: var(--main-color);">5</span> @Localizer["Seconds"]
                     </p>
                 </div>
 
                 <div class="mt-4">
                     <a href="/Identity/Account/Login" class="btn btn-lumo py-2 px-4">
-                        Zaloguj się teraz (jeśli nie chcesz czekać)
+                        @Localizer["LoginBtn"]
                     </a>
                 </div>
             </div>
@@ -39,7 +41,7 @@
 
         const timer = setInterval(() => {
             seconds--;
-            countdownElement.textContent = seconds;
+            if (countdownElement) countdownElement.textContent = seconds;
 
             if (seconds <= 0) {
                 clearInterval(timer);
@@ -48,10 +50,3 @@
         }, 1000);
     </script>
 }
-
-<style>
-    #countdown {
-        display: inline-block;
-        min-width: 1.2em;
-    }
-</style>

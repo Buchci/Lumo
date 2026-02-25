@@ -117,49 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddNewTag" xml:space="preserve">
-    <value>Dodaj nowy tag</value>
+  <data name="AppName" xml:space="preserve">
+    <value>Lumo</value>
   </data>
-  <data name="AddTagBtn" xml:space="preserve">
-    <value>Dodaj tag</value>
+  <data name="HeroDescription" xml:space="preserve">
+    <value>A secure, beautiful, and personal place for your memories. Track your mood, categorize days with tags, and return to your most important moments whenever you want.</value>
   </data>
-  <data name="CancelBtn" xml:space="preserve">
-    <value>Anuluj</value>
+  <data name="HeroSubtitle" xml:space="preserve">
+    <value>Capture the moments that fade away.</value>
   </data>
-  <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć ten tag?</value>
+  <data name="LoginBtn" xml:space="preserve">
+    <value>Log in</value>
   </data>
-  <data name="DeleteBtn" xml:space="preserve">
-    <value>Usuń</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Lumo - Your Digital Diary</value>
   </data>
-  <data name="EditBtn" xml:space="preserve">
-    <value>Edytuj</value>
-  </data>
-  <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Błąd podczas tworzenia tagu: Maksymalna ilość znaków wynosi 20</value>
-  </data>
-  <data name="ErrorDeleteTag" xml:space="preserve">
-    <value>Nie udało się usunąć tagu.</value>
-  </data>
-  <data name="ErrorUpdateTag" xml:space="preserve">
-    <value>Błąd podczas edycji tagu: Maksymalna ilość znaków wynosi 20</value>
-  </data>
-  <data name="ExistingTags" xml:space="preserve">
-    <value>Istniejące tagi</value>
-  </data>
-  <data name="GlobalBadge" xml:space="preserve">
-    <value>Globalny</value>
-  </data>
-  <data name="ManageTagsTitle" xml:space="preserve">
-    <value>Zarządzaj Tagami</value>
-  </data>
-  <data name="SaveBtn" xml:space="preserve">
-    <value>Zapisz</value>
-  </data>
-  <data name="TagNameLabel" xml:space="preserve">
-    <value>Nazwa tagu</value>
-  </data>
-  <data name="TagNamePlaceholder" xml:space="preserve">
-    <value>Wpisz nazwę tagu...</value>
+  <data name="StartBtn" xml:space="preserve">
+    <value>Start your journey</value>
   </data>
 </root>
