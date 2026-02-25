@@ -117,49 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddNewTag" xml:space="preserve">
-    <value>Dodaj nowy tag</value>
+  <data name="Description" xml:space="preserve">
+    <value>Twój adres e-mail został pomyślnie potwierdzony. Witaj w społeczności Lumo!</value>
   </data>
-  <data name="AddTagBtn" xml:space="preserve">
-    <value>Dodaj tag</value>
+  <data name="Header" xml:space="preserve">
+    <value>Konto aktywowane! 🌿</value>
   </data>
-  <data name="CancelBtn" xml:space="preserve">
-    <value>Anuluj</value>
+  <data name="LoginBtn" xml:space="preserve">
+    <value>Zaloguj się teraz</value>
   </data>
-  <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć ten tag?</value>
+  <data name="RedirectInfo" xml:space="preserve">
+    <value>Zostaniesz automatycznie przekierowany do strony logowania za</value>
   </data>
-  <data name="DeleteBtn" xml:space="preserve">
-    <value>Usuń</value>
+  <data name="Seconds" xml:space="preserve">
+    <value>sekund...</value>
   </data>
-  <data name="EditBtn" xml:space="preserve">
-    <value>Edytuj</value>
-  </data>
-  <data name="ErrorCreateTag" xml:space="preserve">
-    <value>Błąd podczas tworzenia tagu: Maksymalna ilość znaków wynosi 20</value>
-  </data>
-  <data name="ErrorDeleteTag" xml:space="preserve">
-    <value>Nie udało się usunąć tagu.</value>
-  </data>
-  <data name="ErrorUpdateTag" xml:space="preserve">
-    <value>Błąd podczas edycji tagu: Maksymalna ilość znaków wynosi 20</value>
-  </data>
-  <data name="ExistingTags" xml:space="preserve">
-    <value>Istniejące tagi</value>
-  </data>
-  <data name="GlobalBadge" xml:space="preserve">
-    <value>Globalny</value>
-  </data>
-  <data name="ManageTagsTitle" xml:space="preserve">
-    <value>Zarządzaj Tagami</value>
-  </data>
-  <data name="SaveBtn" xml:space="preserve">
-    <value>Zapisz</value>
-  </data>
-  <data name="TagNameLabel" xml:space="preserve">
-    <value>Nazwa tagu</value>
-  </data>
-  <data name="TagNamePlaceholder" xml:space="preserve">
-    <value>Wpisz nazwę tagu...</value>
+  <data name="Title" xml:space="preserve">
+    <value>Email Potwierdzony</value>
   </data>
 </root>

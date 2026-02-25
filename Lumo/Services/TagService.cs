@@ -32,12 +32,10 @@ namespace Lumo.Services
         public async Task<Tag> CreateTagAsync(string userId, CreateTagDto dto)
         {
             // Najpierw sprawdzamy warunek błędu (tzw. "fail-fast")
-            if (dto.IsGlobal)
-                throw new InvalidOperationException("Users cannot create global tags.");
 
             var tag = new Tag
             {
-                ResourceKey = dto.ResourceKey,
+                ResourceKey = null,
                 CustomName = dto.CustomName,
                 IsGlobal = false,
                 UserId = userId

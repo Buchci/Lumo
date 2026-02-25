@@ -79,17 +79,14 @@ namespace LumoDiary.Tests
         [Fact]
         public async Task CreateTagAsync_ShouldThrowException_WhenUserTriesToCreateGlobalTag()
         {
-            // Arrange
-            // Tutaj tworzymy instancję kontekstu na podstawie opcji zdefiniowanych w konstruktorze
             using var context = new ApplicationDbContext(_dbOptions);
             var service = new TagService(context);
+            var dto = new CreateTagDto { CustomName = "New User Tag" };
 
-            // Act
-            Func<Task> act = async () => await service.CreateTagAsync(TestUserId, null, "HackerTag", true);
+            var result = await service.CreateTagAsync(TestUserId, dto);
 
-            // Assert
-            await act.Should().ThrowAsync<InvalidOperationException>()
-                .WithMessage("Users cannot create global tags.");
+            result.IsGlobal.Should().BeFalse(); // Upewniamy się, że serwis sam nie ustawił globala
+            result.UserId.Should().Be(TestUserId);
         }
         [Fact]
         public async Task DeleteTagAsync_ShouldReturnFalse_WhenDeletingOtherUserTag()

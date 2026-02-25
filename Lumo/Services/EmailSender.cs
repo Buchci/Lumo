@@ -37,16 +37,14 @@ namespace Lumo.Services
             </div>
 
             <div style='padding: 40px; color: #333333; line-height: 1.6;'>
-                <h2 style='color: #2d4a2d; margin-top: 0;'>Witaj!</h2>
-                <p style='font-size: 16px;'>Cieszymy się, że chcesz dołączyć do społeczności Lumo. Aby w pełni korzystać z możliwości swojego cyfrowego pamiętnika, musimy potwierdzić Twój adres e-mail.</p>
-                
+                <h2 style='color: #2d4a2d; margin-top: 0;'>Witaj!</h2>                
                 <div style='text-align: center; margin: 35px 0;'>
                     <div style='background-color: #28a745; color: white; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;'>
                         {htmlMessage.Replace("href=", "style='color: white; text-decoration: none;' href=")}
                     </div>
                 </div>
 
-                <p style='font-size: 14px; color: #666;'>Jeśli przycisk nie działa, skopiuj poniższy link do przeglądarki:</p>
+                <p style='font-size: 14px; color: #666;'>Jeśli przycisk nie działa, kliknij w poniższy link:</p>
                 <p style='font-size: 12px; color: #888; word-break: break-all;'>{htmlMessage}</p>
             </div>
 

@@ -1,8 +1,10 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Witaj ponownie";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
@@ -12,7 +14,7 @@
                 <div class="text-center mb-4">
                     <div class="display-5 mb-2">🌿</div>
                     <h2 class="fw-bold" style="color: var(--main-color);">@ViewData["Title"]</h2>
-                    <p class="text-muted">Zaloguj się, aby kontynuować swoją podróż.</p>
+                    <p class="text-muted">@Localizer["Subtitle"]</p>
                 </div>
 
                 <form id="account" method="post">
@@ -20,13 +22,13 @@
 
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Email" class="form-control custom-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <label asp-for="Input.Email">Adres E-mail</label>
+                        <label asp-for="Input.Email">@Localizer["EmailLabel"]</label>
                         <span asp-validation-for="Input.Email" class="text-danger small"></span>
                     </div>
 
                     <div class="form-floating mb-2">
                         <input asp-for="Input.Password" class="form-control custom-input" autocomplete="current-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password">Hasło</label>
+                        <label asp-for="Input.Password">@Localizer["PasswordLabel"]</label>
                         <span asp-validation-for="Input.Password" class="text-danger small"></span>
                     </div>
 
@@ -34,23 +36,23 @@
                         <div class="form-check">
                             <input class="form-check-input" asp-for="Input.RememberMe" />
                             <label class="form-check-label text-muted small" asp-for="Input.RememberMe">
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                @Localizer["RememberMe"]
                             </label>
                         </div>
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="text-decoration-none small" style="color: var(--main-color);">Zapomniałeś hasła?</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="text-decoration-none small" style="color: var(--main-color);">@Localizer["ForgotPassword"]</a>
                     </div>
 
                     <button id="login-submit" type="submit" class="w-100 btn btn-lumo btn-lg py-3 mb-3">
-                        Zaloguj się
+                        @Localizer["LoginBtn"]
                     </button>
 
                     <div class="text-center mt-2">
                         <p class="text-muted small">
-                            Nie masz jeszcze konta?
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none fw-bold" style="color: var(--main-color);">Zarejestruj się</a>
+                            @Localizer["NoAccount"]
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-decoration-none fw-bold" style="color: var(--main-color);">@Localizer["RegisterLink"]</a>
                         </p>
                         <p>
-                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-muted small text-decoration-none">Wyślij ponownie potwierdzenie e-mail</a>
+                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-muted small text-decoration-none">@Localizer["ResendConfirmation"]</a>
                         </p>
                     </div>
                 </form>
@@ -60,7 +62,6 @@
 </div>
 
 <style>
-    /* Spójność z Register.cshtml */
     .custom-input {
         border: 2px solid transparent;
         border-radius: 12px;
@@ -74,7 +75,6 @@
             background-color: transparent;
         }
 
-    /* Styl dla checkboxa, żeby pasował do Lumo */
     .form-check-input:checked {
         background-color: var(--main-color);
         border-color: var(--main-color);

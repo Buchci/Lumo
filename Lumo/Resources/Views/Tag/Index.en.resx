@@ -141,6 +141,9 @@
   <data name="ErrorDeleteTag" xml:space="preserve">
     <value>Failed to delete tag.</value>
   </data>
+  <data name="ErrorUpdateTag" xml:space="preserve">
+    <value>Błąd podczas edycji tagu: Maksymalna ilość znaków wynosi 20</value>
+  </data>
   <data name="ExistingTags" xml:space="preserve">
     <value>Existing Tags</value>
   </data>
